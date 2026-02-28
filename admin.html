@@ -5,39 +5,37 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Panel | GreenPowerSense</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
-
 body{
     background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
     color:white;
     text-align:center;
-    padding:50px 20px;
+    padding:30px 20px;
 }
-
 .container{
-    max-width:900px;
+    max-width:1000px;
     margin:auto;
     padding:30px;
     background:rgba(255,255,255,0.08);
     backdrop-filter:blur(10px);
     border-radius:20px;
 }
-
-h1{color:#00ff99;margin-bottom:20px;}
+h1,h2,h3{color:#00ff99;margin-bottom:20px;}
 input{width:70%;padding:12px;margin:10px 0;border:none;border-radius:10px;}
 button{padding:12px 25px;background:#00ff99;border:none;border-radius:30px;cursor:pointer;font-weight:bold;transition:0.3s;}
 button:hover{background:#00cc77;transform:scale(1.05);}
 table{width:100%;margin-top:20px;border-collapse:collapse;}
 th,td{border:1px solid #00ff99;padding:8px;border-radius:5px;}
 #adminPanel{display:none;}
+canvas{margin-top:30px;background:rgba(255,255,255,0.05);border-radius:10px;}
 a{display:block;margin-top:30px;color:#00ff99;text-decoration:none;}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 <h1>🔐 Admin Login</h1>
 
@@ -46,7 +44,7 @@ a{display:block;margin-top:30px;color:#00ff99;text-decoration:none;}
 <button onclick="adminLogin()">Login</button>
 
 <div id="adminPanel">
-<h2>📊 All Energy Records</h2>
+<h2>📊 Energy Records Table</h2>
 <table id="adminTable">
 <tr><th>Month</th><th>Units</th><th>CO₂ (kg)</th></tr>
 </table>
@@ -55,6 +53,10 @@ a{display:block;margin-top:30px;color:#00ff99;text-decoration:none;}
 <p>Total Units: <span id="totalUnits">0</span> kWh</p>
 <p>Total CO₂: <span id="totalCarbon">0</span> kg</p>
 <p>Energy Score: <span id="energyScore">0</span> / 100</p>
+
+<h2>📈 Usage Charts</h2>
+<canvas id="unitsChart" height="100"></canvas>
+<canvas id="carbonChart" height="100"></canvas>
 
 <button onclick="clearAllHistory()">Clear All Records</button>
 </div>
@@ -66,7 +68,6 @@ a{display:block;margin-top:30px;color:#00ff99;text-decoration:none;}
 function adminLogin(){
     let user = document.getElementById("adminUser").value;
     let pass = document.getElementById("adminPass").value;
-
     if(user === "admin" && pass === "1234"){
         document.getElementById("adminPanel").style.display = "block";
         loadAdminData();
@@ -82,6 +83,7 @@ function loadAdminData(){
     table.innerHTML = `<tr><th>Month</th><th>Units</th><th>CO₂ (kg)</th></tr>`;
 
     let totalUnits = 0, totalCarbon = 0;
+    let months=[], unitsData=[], carbonData=[];
 
     history.forEach(r=>{
         table.innerHTML += `<tr>
@@ -91,6 +93,9 @@ function loadAdminData(){
         </tr>`;
         totalUnits += parseFloat(r.units);
         totalCarbon += parseFloat(r.carbon);
+        months.push(r.month);
+        unitsData.push(r.units);
+        carbonData.push(r.carbon);
     });
 
     let score = history.length>0 ? Math.max(0,100 - (totalUnits/history.length)/5) : 0;
@@ -98,6 +103,36 @@ function loadAdminData(){
     document.getElementById("totalUnits").innerText = totalUnits.toFixed(2);
     document.getElementById("totalCarbon").innerText = totalCarbon.toFixed(2);
     document.getElementById("energyScore").innerText = score.toFixed(0);
+
+    // Units Line Chart
+    new Chart(document.getElementById("unitsChart"),{
+        type:"line",
+        data:{
+            labels:months,
+            datasets:[{
+                label:"Monthly Units (kWh)",
+                data:unitsData,
+                borderColor:"#00ff99",
+                backgroundColor:"rgba(0,255,153,0.2)",
+                tension:0.4
+            }]
+        },
+        options:{responsive:true}
+    });
+
+    // CO2 Bar Chart
+    new Chart(document.getElementById("carbonChart"),{
+        type:"bar",
+        data:{
+            labels:months,
+            datasets:[{
+                label:"Monthly CO₂ (kg)",
+                data:carbonData,
+                backgroundColor:"#00cc77"
+            }]
+        },
+        options:{responsive:true}
+    });
 }
 
 function clearAllHistory(){
@@ -107,6 +142,5 @@ function clearAllHistory(){
     }
 }
 </script>
-
 </body>
 </html>
