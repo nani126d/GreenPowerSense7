@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appliance Usage | GreenPowerSense</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+
+body{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+}
+
+.container{
+    max-width:700px;
+    margin:50px auto;
+    padding:30px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    text-align:center;
+}
+
+h1{
+    color:#00ff99;
+    margin-bottom:20px;
+}
+
+input{
+    width:80%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:10px;
+}
+
+button{
+    padding:12px 25px;
+    background:#00ff99;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#00cc77;
+    transform:scale(1.05);
+}
+
+.result{
+    margin-top:25px;
+    font-size:1rem;
+    color:#00ff99;
+    line-height:1.6;
+}
+
+a{
+    display:block;
+    margin-top:30px;
+    color:#00ff99;
+    text-decoration:none;
+}
+
+.progress{
+    margin-top:15px;
+    height:12px;
+    background:#333;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    background:#00ff99;
+    width:0%;
+    transition:0.6s;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>📱 Appliance Energy Usage</h1>
+
+    <input type="number" id="watts" placeholder="Appliance Power (Watts)">
+    <input type="number" id="hours" placeholder="Usage Hours per Day">
+
+    <button onclick="calculateAppUsage()">Calculate</button>
+
+    <div class="result" id="appResult"></div>
+    <div class="progress">
+        <div class="progress-bar" id="usageBar"></div>
+    </div>
+
+    <a href="dashboard.html">⬅ Go to Dashboard</a>
+</div>
+
+<script>
+
+const AVG_UNITS = 300;
+
+function calculateAppUsage(){
+
+    let watts = document.getElementById("watts").value;
+    let hours = document.getElementById("hours").value;
+
+    if(!watts || !hours){
+        alert("Please enter all fields");
+        return;
+    }
+
+    watts = parseFloat(watts);
+    hours = parseFloat(hours);
+
+    // Monthly units in kWh
+    let units = (watts * hours * 30) / 1000;
+
+    let cost = units * 6;
+    let carbon = units * 0.82;
+
+    let message = units < AVG_UNITS
+        ? "🎉 Efficient Usage"
+        : "⚠ High Consumption";
+
+    document.getElementById("appResult").innerHTML = `
+        🔌 Monthly Consumption: ${units.toFixed(2)} kWh <br>
+        💰 Estimated Bill: ₹${cost.toFixed(0)} <br>
+        🌍 CO₂ Emission: ${carbon.toFixed(2)} kg <br>
+        📊 ${message}
+    `;
+
+    let scorePercent = Math.min(100, (AVG_UNITS/units)*100);
+    document.getElementById("usageBar").style.width = scorePercent+"%";
+
+    // Save appliance usage record
+    let month = new Date().toLocaleString('default',{month:'short',year:'numeric'});
+    let history = JSON.parse(localStorage.getItem("applianceHistory")) || [];
+
+    // Remove duplicate month
+    history = history.filter(r=>r.month!==month);
+
+    history.push({month, watts, hours, units:units.toFixed(2), carbon:carbon.toFixed(2)});
+
+    localStorage.setItem("applianceHistory", JSON.stringify(history));
+}
+
+</script>
+
+</body>
+</html>
