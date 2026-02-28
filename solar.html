@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Estimation | GreenPowerSense</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+body{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+    text-align:center;
+    padding:50px 20px;
+}
+.container{
+    max-width:800px;
+    margin:auto;
+    padding:30px;
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+}
+h1{color:#00ff99;margin-bottom:20px;}
+input{width:70%;padding:12px;margin:10px 0;border:none;border-radius:10px;}
+button{padding:12px 25px;background:#00ff99;border:none;border-radius:30px;cursor:pointer;font-weight:bold;transition:0.3s;}
+button:hover{background:#00cc77;transform:scale(1.05);}
+.result{margin-top:25px;font-size:1rem;color:#00ff99;line-height:1.6;}
+table{width:100%;margin-top:20px;border-collapse:collapse;}
+th,td{border:1px solid #00ff99;padding:8px;border-radius:5px;}
+a{display:block;margin-top:30px;color:#00ff99;text-decoration:none;}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>☀ Solar Panel Estimation</h1>
+
+<input type="number" id="roof" placeholder="Enter Roof Area (sq.ft)">
+<button onclick="solarEstimate()">Calculate</button>
+
+<div class="result" id="solarResult"></div>
+
+<h2>📈 Monthly Energy History</h2>
+<table id="historyTable">
+    <tr>
+        <th>Month</th>
+        <th>Units</th>
+        <th>CO₂ (kg)</th>
+    </tr>
+</table>
+
+<button onclick="clearHistory()">Clear History</button>
+<a href="dashboard.html">⬅ Go to Dashboard</a>
+</div>
+
+<script>
+// Solar Calculation
+function solarEstimate(){
+    let roof = document.getElementById("roof").value;
+    if(!roof){alert("Enter roof area"); return;}
+    roof = parseFloat(roof);
+
+    let panelArea = 18; // sq.ft per panel
+    let panels = Math.floor(roof / panelArea);
+    let costPerPanel = 20000; // ₹
+    let totalCost = panels * costPerPanel;
+
+    document.getElementById("solarResult").innerHTML =
+        `Panels Needed: <strong>${panels}</strong> <br>
+         Total Investment: <strong>₹${totalCost}</strong>`;
+
+    loadHistory();
+}
+
+// Load Monthly Energy History
+function loadHistory(){
+    let history = JSON.parse(localStorage.getItem("energyHistory")) || [];
+    let table = document.getElementById("historyTable");
+
+    // Reset table
+    table.innerHTML = `<tr>
+        <th>Month</th>
+        <th>Units</th>
+        <th>CO₂ (kg)</th>
+    </tr>`;
+
+    history.forEach(r=>{
+        table.innerHTML += `<tr>
+            <td>${r.month}</td>
+            <td>${r.units}</td>
+            <td>${r.carbon}</td>
+        </tr>`;
+    });
+}
+
+// Clear History
+function clearHistory(){
+    if(confirm("Are you sure you want to clear history?")){
+        localStorage.removeItem("energyHistory");
+        loadHistory();
+    }
+}
+
+// Load history on page load
+window.onload = loadHistory;
+</script>
+
+</body>
+</html>
