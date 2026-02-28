@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GreenPowerSense</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+    overflow-x:hidden;
+}
+
+nav{
+    display:flex;
+    justify-content:space-between;
+    padding:20px 60px;
+}
+
+.logo{
+    font-size:1.5rem;
+    font-weight:700;
+    color:#00ff99;
+}
+
+nav a{
+    margin-left:25px;
+    text-decoration:none;
+    color:white;
+    font-weight:500;
+    transition:0.3s;
+}
+
+nav a:hover{
+    color:#00ff99;
+}
+
+.hero{
+    height:90vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:3rem;
+    background:linear-gradient(90deg,#00ff99,#00ccff);
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:fadeIn 2s ease;
+}
+
+.hero p{
+    margin-top:20px;
+    font-size:1.2rem;
+    max-width:700px;
+    opacity:0.8;
+}
+
+.btn{
+    margin-top:30px;
+    padding:12px 25px;
+    background:#00ff99;
+    border:none;
+    border-radius:30px;
+    cursor:pointer;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn:hover{
+    transform:scale(1.1);
+    background:#00cc77;
+}
+
+.features{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:30px;
+    padding:60px 20px;
+}
+
+.card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    padding:25px;
+    border-radius:20px;
+    width:250px;
+    text-align:center;
+    transition:0.4s;
+}
+
+.card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 0 20px #00ff99;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    opacity:0.6;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(30px);}
+    to{opacity:1; transform:translateY(0);}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">🌿 GreenPowerSense</div>
+    <div>
+        <a href="bill.html">Bill</a>
+        <a href="apps.html">Appliances</a>
+        <a href="solar.html">Solar</a>
+        <a href="admin.html">Admin</a>
+    </div>
+</nav>
+
+<section class="hero">
+    <h1>Smart Energy Monitoring & Sustainability System</h1>
+    <p>
+        GreenPowerSense analyzes electricity bills, predicts solar requirements,
+        tracks monthly energy usage and shows your carbon footprint reduction.
+    </p>
+    <button class="btn" onclick="location.href='bill.html'">
+        Get Started
+    </button>
+</section>
+
+<section class="features">
+    <div class="card">
+        <h3>⚡ Bill Analysis</h3>
+        <p>Understand electricity cost & carbon impact.</p>
+    </div>
+    <div class="card">
+        <h3>📈 Usage Tracking</h3>
+        <p>Monitor monthly consumption history.</p>
+    </div>
+    <div class="card">
+        <h3>☀ Solar Estimation</h3>
+        <p>Calculate panels & investment required.</p>
+    </div>
+</section>
+
+<footer>
+© 2026 GreenPowerSense | Sustainable Innovation Project
+</footer>
+
+</body>
+</html>
