@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Green Power Smart Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    background: linear-gradient(135deg,#2ecc71,#3498db);
+    color:white;
+}
+
+header{
+    text-align:center;
+    padding:20px;
+    font-size:28px;
+    font-weight:bold;
+}
+
+.container{
+    width:90%;
+    max-width:900px;
+    margin:20px auto;
+    background:white;
+    color:black;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.menu{
+    display:flex;
+    justify-content:space-around;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.menu button{
+    padding:12px 20px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    background:#27ae60;
+    color:white;
+}
+
+.menu button:hover{
+    background:#1e8449;
+}
+
+.section{
+    display:none;
+    margin-top:15px;
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button.action{
+    width:100%;
+    background:#3498db;
+    margin-top:10px;
+}
+
+.result{
+    background:#ecf9f1;
+    padding:12px;
+    margin-top:15px;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<header>⚡ Green Power Smart Dashboard</header>
+
+<div class="container">
+
+<div class="menu">
+    <button onclick="showSection('bill')">📄 Bill Analysis</button>
+    <button onclick="showSection('solar')">☀ Solar Estimation</button>
+    <button onclick="showSection('appliance')">🏠 Appliances Analysis</button>
+</div>
+
+<!-- BILL ANALYSIS -->
+<div id="bill" class="section">
+<h3>📄 Electricity Bill Analysis</h3>
+<input type="number" id="billUnits" placeholder="Enter Monthly Units">
+<input type="number" id="unitRate" placeholder="Enter Cost Per Unit (₹)">
+<button class="action" onclick="analyzeBill()">Analyze Bill</button>
+<div id="billResult" class="result"></div>
+</div>
+
+<!-- SOLAR ESTIMATION -->
+<div id="solar" class="section">
+<h3>☀ Solar System Estimation</h3>
+<input type="number" id="solarUnits" placeholder="Enter Monthly Units">
+<button class="action" onclick="calculateSolar()">Estimate Solar</button>
+<div id="solarResult" class="result"></div>
+</div>
+
+<!-- APPLIANCE ANALYSIS -->
+<div id="appliance" class="section">
+<h3>🏠 Appliance Power Analysis</h3>
+<input type="text" id="appName" placeholder="Appliance Name">
+<input type="number" id="appWatts" placeholder="Watts">
+<input type="number" id="appHours" placeholder="Hours Per Day">
+<button class="action" onclick="addAppliance()">Add Appliance</button>
+
+<div id="applianceList"></div>
+
+<button class="action" onclick="calculateAppliances()">Calculate Monthly Units</button>
+<div id="applianceResult" class="result"></div>
+</div>
+
+</div>
+
+<script>
+
+function showSection(id){
+    document.querySelectorAll(".section").forEach(sec=>{
+        sec.style.display="none";
+    });
+    document.getElementById(id).style.display="block";
+}
+
+/* BILL ANALYSIS */
+function analyzeBill(){
+    let units = parseFloat(document.getElementById("billUnits").value);
+    let rate = parseFloat(document.getElementById("unitRate").value);
+
+    if(!units || !rate){
+        alert("Enter valid details");
+        return;
+    }
+
+    let total = units * rate;
+    let co2 = units * 0.82; // average CO2 per unit in India
+
+    document.getElementById("billResult").innerHTML =
+        `<b>Total Bill:</b> ₹ ${total.toFixed(2)}<br>
+         <b>Estimated CO₂ Emission:</b> ${co2.toFixed(2)} kg`;
+}
+
+/* SOLAR ESTIMATION */
+function calculateSolar(){
+    let units = parseFloat(document.getElementById("solarUnits").value);
+
+    if(!units){
+        alert("Enter units");
+        return;
+    }
+
+    let dailyUnits = units/30;
+    let requiredKW = dailyUnits/4;
+    let panels = Math.ceil(requiredKW/0.55);
+    let cost = Math.ceil(requiredKW * 55000);
+
+    document.getElementById("solarResult").innerHTML =
+        `<b>Required Solar Capacity:</b> ${requiredKW.toFixed(2)} kW<br>
+         <b>Number of 550W Panels:</b> ${panels}<br>
+         <b>Estimated Cost:</b> ₹ ${cost.toLocaleString()}`;
+}
+
+/* APPLIANCE ANALYSIS */
+let appliances = [];
+
+function addAppliance(){
+    let name = document.getElementById("appName").value;
+    let watts = parseFloat(document.getElementById("appWatts").value);
+    let hours = parseFloat(document.getElementById("appHours").value);
+
+    if(!name || !watts || !hours){
+        alert("Enter all details");
+        return;
+    }
+
+    appliances.push({name, watts, hours});
+
+    document.getElementById("applianceList").innerHTML +=
+        `<p>${name} - ${watts}W - ${hours} hrs/day</p>`;
+
+    document.getElementById("appName").value="";
+    document.getElementById("appWatts").value="";
+    document.getElementById("appHours").value="";
+}
+
+function calculateAppliances(){
+    let totalDailyUnits = 0;
+
+    appliances.forEach(a=>{
+        totalDailyUnits += (a.watts * a.hours)/1000;
+    });
+
+    let monthlyUnits = totalDailyUnits * 30;
+
+    document.getElementById("applianceResult").innerHTML =
+        `<b>Estimated Monthly Units:</b> ${monthlyUnits.toFixed(2)} units`;
+}
+
+</script>
+
+</body>
+</html>
