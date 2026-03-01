@@ -8,16 +8,19 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
+/* General Reset */
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
+/* Full Background Image with Dark Overlay */
 body{
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('images/greenpowersense.jpg') no-repeat center center/cover;
     color:white;
     overflow-x:hidden;
     scroll-behavior:smooth;
+    min-height:100vh;
 }
 
-/* Particle Background */
+/* Particle Canvas */
 #particles{
     position:fixed;
     width:100%;
@@ -27,7 +30,7 @@ body{
     z-index:-1;
 }
 
-/* Hero Section */
+/* Header / Hero Section */
 header{
     text-align:center;
     padding:120px 20px 80px;
@@ -37,7 +40,7 @@ header h1{
     font-size:3rem;
     color:#00ff99;
     text-shadow:0 0 20px #00ff99,0 0 30px #00ff99;
-    animation:fadeInDown 1s ease forwards;
+    animation:fadeInDown 1s ease forwards, neonPulse 2s ease-in-out infinite alternate;
 }
 
 header p{
@@ -48,7 +51,7 @@ header p{
     text-shadow:0 0 10px rgba(0,255,153,0.7);
 }
 
-/* Button */
+/* Glowing Button */
 .btn{
     display:inline-block;
     margin-top:40px;
@@ -128,7 +131,7 @@ header p{
     color:rgba(255,255,255,0.9);
 }
 
-/* Card Hover */
+/* Card Hover Effect */
 .card:hover{
     transform:translateY(-10px) scale(1.05) rotateX(5deg) rotateY(5deg);
     box-shadow:0 0 35px #00ff99,0 0 60px rgba(0,255,153,0.3) inset;
@@ -149,6 +152,11 @@ header p{
     0%{transform:translateY(0);}
     50%{transform:translateY(-15px);}
     100%{transform:translateY(0);}
+}
+
+@keyframes neonPulse {
+    0% { text-shadow: 0 0 10px #00ff99,0 0 20px #00ff99; }
+    100% { text-shadow: 0 0 30px #00ff99,0 0 60px #00ff99; }
 }
 
 /* Responsive */
