@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: Arial;
-            background: #f4fff4;
+            background: #f2fff2;
             text-align: center;
             padding: 50px;
         }
@@ -41,6 +41,11 @@
         button:hover {
             background: darkgreen;
         }
+
+        #message {
+            margin-top: 15px;
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -49,6 +54,11 @@
 
 <div class="container">
 
+    <!-- Upload Bill -->
+    <input type="file" id="billFile" accept=".jpg,.jpeg,.png,.pdf">
+    <br>
+
+    <!-- Manual Entry -->
     <input type="number" id="units" placeholder="Enter Monthly Units (Example: 250)">
     <br>
 
@@ -56,6 +66,8 @@
     <br>
 
     <button onclick="analyzeAndSave()">Analyze & Go to Dashboard</button>
+
+    <div id="message"></div>
 
 </div>
 
@@ -65,9 +77,11 @@ function analyzeAndSave() {
 
     let units = document.getElementById("units").value;
     let amount = document.getElementById("amount").value;
+    let file = document.getElementById("billFile").files[0];
 
     if(units === "" || amount === "") {
-        alert("Please enter Units and Bill Amount.");
+        document.getElementById("message").innerHTML =
+            "Please enter Units and Bill Amount.";
         return;
     }
 
@@ -92,18 +106,15 @@ function analyzeAndSave() {
         co2: co2.toFixed(2),
         solarKW: requiredKW.toFixed(2),
         solarCost: solarCost.toFixed(0),
-        payback: payback.toFixed(1)
+        payback: payback.toFixed(1),
+        billUploaded: file ? file.name : "Not Uploaded"
     };
 
-    // Get existing history
     let history = JSON.parse(localStorage.getItem("history_" + username)) || [];
-
     history.push(record);
 
-    // Save updated history
     localStorage.setItem("history_" + username, JSON.stringify(history));
 
-    // Go back to dashboard
     window.location.href = "dashboard.html";
 }
 
