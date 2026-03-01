@@ -3,144 +3,153 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin Panel | GreenPowerSense</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<title>Admin Panel - Pro</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
 body{
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    background:#0f172a;
     color:white;
+}
+.center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+.card{
+    background:#1e293b;
+    padding:40px;
+    border-radius:12px;
+    width:350px;
+    box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
+h2{
     text-align:center;
-    padding:30px 20px;
+    margin-bottom:25px;
+    color:#22c55e;
 }
-.container{
-    max-width:1000px;
-    margin:auto;
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border:none;
+    border-radius:6px;
+    outline:none;
+}
+button{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    background:#22c55e;
+    border:none;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+button:hover{
+    background:#16a34a;
+}
+.dashboard{
+    display:none;
     padding:30px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(10px);
-    border-radius:20px;
 }
-h1,h2,h3{color:#00ff99;margin-bottom:20px;}
-input{width:70%;padding:12px;margin:10px 0;border:none;border-radius:10px;}
-button{padding:12px 25px;background:#00ff99;border:none;border-radius:30px;cursor:pointer;font-weight:bold;transition:0.3s;}
-button:hover{background:#00cc77;transform:scale(1.05);}
-table{width:100%;margin-top:20px;border-collapse:collapse;}
-th,td{border:1px solid #00ff99;padding:8px;border-radius:5px;}
-#adminPanel{display:none;}
-canvas{margin-top:30px;background:rgba(255,255,255,0.05);border-radius:10px;}
-a{display:block;margin-top:30px;color:#00ff99;text-decoration:none;}
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+.logout{
+    background:#ef4444;
+}
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+}
+.box{
+    background:#1e293b;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+}
+.box h3{
+    color:#22c55e;
+}
 </style>
 </head>
 
 <body>
-<div class="container">
-<h1>🔐 Admin Login</h1>
 
-<input type="text" id="adminUser" placeholder="Username">
-<input type="password" id="adminPass" placeholder="Password">
-<button onclick="adminLogin()">Login</button>
-
-<div id="adminPanel">
-<h2>📊 Energy Records Table</h2>
-<table id="adminTable">
-<tr><th>Month</th><th>Units</th><th>CO₂ (kg)</th></tr>
-</table>
-
-<h3>Summary</h3>
-<p>Total Units: <span id="totalUnits">0</span> kWh</p>
-<p>Total CO₂: <span id="totalCarbon">0</span> kg</p>
-<p>Energy Score: <span id="energyScore">0</span> / 100</p>
-
-<h2>📈 Usage Charts</h2>
-<canvas id="unitsChart" height="100"></canvas>
-<canvas id="carbonChart" height="100"></canvas>
-
-<button onclick="clearAllHistory()">Clear All Records</button>
+<!-- LOGIN -->
+<div class="center" id="loginPage">
+    <div class="card">
+        <h2>Admin Login</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+    </div>
 </div>
 
-<a href="dashboard.html">⬅ Go to Dashboard</a>
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+    <div class="topbar">
+        <h2>Admin Dashboard</h2>
+        <button class="logout" onclick="logout()">Logout</button>
+    </div>
+
+    <div class="stats">
+        <div class="box">
+            <h3>Users</h3>
+            <p id="users">120</p>
+        </div>
+        <div class="box">
+            <h3>Energy Records</h3>
+            <p id="records">340</p>
+        </div>
+        <div class="box">
+            <h3>Revenue</h3>
+            <p id="revenue">₹25,000</p>
+        </div>
+        <div class="box">
+            <h3>Status</h3>
+            <p>Active</p>
+        </div>
+    </div>
 </div>
 
 <script>
-function adminLogin(){
-    let user = document.getElementById("adminUser").value;
-    let pass = document.getElementById("adminPass").value;
-    if(user === "admin" && pass === "1234"){
-        document.getElementById("adminPanel").style.display = "block";
-        loadAdminData();
+
+// Simple session check
+if(sessionStorage.getItem("adminLoggedIn")){
+    showDashboard();
+}
+
+function login(){
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    if(user === "admin" && pass === "2025"){
+        sessionStorage.setItem("adminLoggedIn", true);
+        showDashboard();
     } else {
-        alert("Invalid credentials");
+        alert("Invalid Credentials");
     }
 }
 
-function loadAdminData(){
-    let history = JSON.parse(localStorage.getItem("energyHistory")) || [];
-    let table = document.getElementById("adminTable");
-
-    table.innerHTML = `<tr><th>Month</th><th>Units</th><th>CO₂ (kg)</th></tr>`;
-
-    let totalUnits = 0, totalCarbon = 0;
-    let months=[], unitsData=[], carbonData=[];
-
-    history.forEach(r=>{
-        table.innerHTML += `<tr>
-            <td>${r.month}</td>
-            <td>${r.units}</td>
-            <td>${r.carbon}</td>
-        </tr>`;
-        totalUnits += parseFloat(r.units);
-        totalCarbon += parseFloat(r.carbon);
-        months.push(r.month);
-        unitsData.push(r.units);
-        carbonData.push(r.carbon);
-    });
-
-    let score = history.length>0 ? Math.max(0,100 - (totalUnits/history.length)/5) : 0;
-
-    document.getElementById("totalUnits").innerText = totalUnits.toFixed(2);
-    document.getElementById("totalCarbon").innerText = totalCarbon.toFixed(2);
-    document.getElementById("energyScore").innerText = score.toFixed(0);
-
-    // Units Line Chart
-    new Chart(document.getElementById("unitsChart"),{
-        type:"line",
-        data:{
-            labels:months,
-            datasets:[{
-                label:"Monthly Units (kWh)",
-                data:unitsData,
-                borderColor:"#00ff99",
-                backgroundColor:"rgba(0,255,153,0.2)",
-                tension:0.4
-            }]
-        },
-        options:{responsive:true}
-    });
-
-    // CO2 Bar Chart
-    new Chart(document.getElementById("carbonChart"),{
-        type:"bar",
-        data:{
-            labels:months,
-            datasets:[{
-                label:"Monthly CO₂ (kg)",
-                data:carbonData,
-                backgroundColor:"#00cc77"
-            }]
-        },
-        options:{responsive:true}
-    });
+function showDashboard(){
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("dashboard").style.display = "block";
 }
 
-function clearAllHistory(){
-    if(confirm("Are you sure to clear all records?")){
-        localStorage.removeItem("energyHistory");
-        loadAdminData();
-    }
+function logout(){
+    sessionStorage.removeItem("adminLoggedIn");
+    location.reload();
 }
+
 </script>
+
 </body>
 </html>
