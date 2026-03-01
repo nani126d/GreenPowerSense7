@@ -248,6 +248,20 @@ cards.forEach((card,i)=>{
 // Load data on page load
 window.onload = loadDashboardData;
 </script>
+    <script>
+const user = localStorage.getItem("gpsUser");
+
+if(!user){
+    window.location.href = "login.html";
+}
+
+document.addEventListener("DOMContentLoaded", function(){
+    const welcome = document.createElement("h2");
+    welcome.style.color = "#00ff99";
+    welcome.innerText = "Welcome, " + user + " 🌿";
+    document.body.prepend(welcome);
+});
+</script>
 
 </body>
 </html>
