@@ -1,132 +1,90 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solar Estimation | GreenPowerSense</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
-    text-align:center;
-    padding:50px 20px;
-    overflow-x:hidden;
-}
-#particles{position:fixed;width:100%;height:100%;top:0;left:0;z-index:-1;}
+    <title>Solar Estimation Result</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #eaffea;
+            text-align: center;
+            padding: 40px;
+        }
 
-.container{
-    max-width:700px;
-    margin:auto;
-    padding:30px;
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(15px);
-    border-radius:20px;
-    opacity:0;
-    transform:translateY(50px);
-    transition:0.8s;
-}
-h1{color:#00ff99;margin-bottom:20px;}
-input{width:80%;padding:12px;margin:10px 0;border:none;border-radius:10px;}
-button{
-    padding:12px 25px;
-    background:linear-gradient(45deg,#00ff99,#00cc77);
-    border:none;
-    border-radius:30px;
-    cursor:pointer;
-    font-weight:bold;
-    transition:0.5s;
-}
-button:hover{transform:scale(1.05);box-shadow:0 0 25px #00ff99;}
-.result{margin-top:25px;color:#00ff99;line-height:1.6;font-size:1rem;}
-table{width:100%;margin-top:20px;border-collapse:collapse;}
-th,td{border:1px solid #00ff99;padding:8px;border-radius:5px;}
-th{color:#00ff99;}
-a{display:block;margin-top:30px;color:#00ff99;text-decoration:none;}
-</style>
+        .box {
+            background: white;
+            width: 60%;
+            margin: auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        h1 {
+            color: green;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+    </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
+<h1>Solar Panel Estimation</h1>
 
-<div class="container" id="solarContainer">
-<h1>☀ Solar Panel Estimation</h1>
-<input type="number" id="roof" placeholder="Enter Roof Area (sq.ft)">
-<button onclick="solarEstimate()">Calculate</button>
+<div class="box">
 
-<div class="result" id="solarResult"></div>
+    <div id="result"></div>
 
-<h2>📈 Monthly Energy History</h2>
-<table id="historyTable">
-<tr><th>Month</th><th>Units</th><th>CO₂ (kg)</th></tr>
-</table>
+    <br><br>
 
-<button onclick="clearHistory()">Clear History</button>
-<a href="dashboard.html">⬅ Go to Dashboard</a>
+    <button onclick="goDashboard()">Go to Dashboard</button>
+    <button onclick="goHome()">Back to Home</button>
+
 </div>
 
 <script>
-// Particle background
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-let particles=[];
-for(let i=0;i<100;i++){
-    particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*2+1,dx:(Math.random()-0.5)*0.5,dy:(Math.random()-0.5)*0.5});
-}
-function animateParticles(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle="rgba(0,255,153,0.7)";
-        ctx.fill();
-        p.x+=p.dx; p.y+=p.dy;
-        if(p.x<0||p.x>canvas.width)p.dx*=-1;
-        if(p.y<0||p.y>canvas.height)p.dy*=-1;
-    });
-    requestAnimationFrame(animateParticles);
-}
-animateParticles();
 
-// Animate container
-window.onload=()=>{
-    const container=document.getElementById("solarContainer");
-    setTimeout(()=>{container.style.opacity="1";container.style.transform="translateY(0)";},200);
+let units = localStorage.getItem("units");
+let amount = localStorage.getItem("amount");
+let co2 = localStorage.getItem("co2");
+let requiredKW = localStorage.getItem("requiredKW");
+let solarCost = localStorage.getItem("solarCost");
+let payback = localStorage.getItem("payback");
+
+if(units) {
+
+    document.getElementById("result").innerHTML =
+        "<b>Monthly Units:</b> " + units + " kWh <br><br>" +
+        "<b>Bill Amount:</b> ₹" + amount + "<br><br>" +
+        "<b>CO2 Emission:</b> " + parseFloat(co2).toFixed(2) + " kg<br><br>" +
+        "<b>Recommended Solar Capacity:</b> " + parseFloat(requiredKW).toFixed(2) + " kW<br><br>" +
+        "<b>Estimated Installation Cost:</b> ₹" + parseFloat(solarCost).toFixed(0) + "<br><br>" +
+        "<b>Estimated Payback Period:</b> " + parseFloat(payback).toFixed(1) + " years";
+
+} else {
+    document.getElementById("result").innerHTML =
+        "No data found. Please analyze from Home page.";
 }
 
-// Solar Estimation
-function solarEstimate(){
-    let roof=document.getElementById("roof").value;
-    if(!roof){alert("Enter roof area");return;}
-    roof=parseFloat(roof);
-    let panelArea=18;
-    let panels=Math.floor(roof/panelArea);
-    let costPerPanel=20000;
-    let totalCost=panels*costPerPanel;
-    document.getElementById("solarResult").innerHTML=
-        `Panels Needed: <strong>${panels}</strong><br>Total Investment: <strong>₹${totalCost}</strong>`;
-    loadHistory();
+function goDashboard() {
+    window.location.href = "dashboard.html";
 }
 
-// Load monthly history
-function loadHistory(){
-    let history=JSON.parse(localStorage.getItem("energyHistory"))||[];
-    let table=document.getElementById("historyTable");
-    table.innerHTML=`<tr><th>Month</th><th>Units</th><th>CO₂ (kg)</th></tr>`;
-    history.forEach(r=>{
-        table.innerHTML+=`<tr><td>${r.month}</td><td>${r.units}</td><td>${r.carbon}</td></tr>`;
-    });
+function goHome() {
+    window.location.href = "home.html";
 }
 
-function clearHistory(){
-    if(confirm("Are you sure to clear history?")){
-        localStorage.removeItem("energyHistory");
-        loadHistory();
-    }
-}
 </script>
+
 </body>
 </html>
