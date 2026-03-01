@@ -1,137 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bill Analysis | GreenPowerSense</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <title>Home - Eco Energy Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f9f4;
+            text-align: center;
+            padding: 20px;
+        }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
-    text-align:center;
-    padding:40px 20px;
-}
-.container{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(15px);
-    padding:40px;
-    border-radius:20px;
-    max-width:500px;
-    margin:auto;
-}
-h1{
-    color:#00ff99;
-    margin-bottom:20px;
-}
-input,select{
-    width:100%;
-    padding:12px;
-    margin:10px 0;
-    border-radius:8px;
-    border:none;
-    outline:none;
-}
-button{
-    margin-top:20px;
-    padding:12px 30px;
-    border:none;
-    border-radius:50px;
-    background:linear-gradient(45deg,#00ff99,#00cc77);
-    color:white;
-    font-weight:bold;
-    cursor:pointer;
-    transition:0.4s;
-}
-button:hover{
-    transform:scale(1.05);
-    box-shadow:0 0 20px #00ff99;
-}
-.result{
-    margin-top:20px;
-    font-size:1.1rem;
-}
-</style>
+        h1 {
+            color: green;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            margin: auto;
+            width: 60%;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            width: 70%;
+        }
+
+        button {
+            background: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
+<h1>Welcome to Eco Energy System</h1>
+
 <div class="container">
-    <h1>⚡ Bill Analysis</h1>
 
-    <select id="month">
-        <option value="">Select Month</option>
-        <option>January</option>
-        <option>February</option>
-        <option>March</option>
-        <option>April</option>
-        <option>May</option>
-        <option>June</option>
-        <option>July</option>
-        <option>August</option>
-        <option>September</option>
-        <option>October</option>
-        <option>November</option>
-        <option>December</option>
-    </select>
+    <h2>Upload Your Electricity Bill</h2>
 
-    <input type="number" id="units" placeholder="Enter Units (kWh)">
+    <input type="file" id="billUpload" accept=".jpg,.jpeg,.png,.pdf">
+    <br>
 
-    <button onclick="calculateBill()">Calculate & Save</button>
+    <input type="number" id="units" placeholder="Or Enter Units Consumed (Example: 250)">
+    <br>
 
-    <div class="result" id="result"></div>
+    <button onclick="analyzeBill()">Bill Analysis</button>
+    <button onclick="solarEstimate()">Solar Estimation</button>
+    <button onclick="applianceAnalysis()">Appliance Analysis</button>
+    <button onclick="goDashboard()">Go to Dashboard</button>
 
-    <button onclick="location.href='dashboard.html'">📊 Go to Dashboard</button>
+    <div id="result"></div>
+
 </div>
 
 <script>
 
-// LOGIN CHECK
-const user = localStorage.getItem("gpsUser");
-if(!user){
-    window.location.href = "login.html";
-}
+function analyzeBill() {
+    let units = document.getElementById("units").value;
 
-// Calculate and Save
-function calculateBill(){
-
-    const month = document.getElementById("month").value;
-    const units = parseFloat(document.getElementById("units").value);
-
-    if(!month || !units){
-        alert("Please enter month and units");
+    if(units == "") {
+        alert("Please enter units consumed from bill.");
         return;
     }
 
-    const rate = 6; // ₹6 per unit
-    const billAmount = units * rate;
-    const carbon = units * 0.82; // CO2 factor
+    let co2 = units * 0.82;   // Average CO2 per unit in India
+    let cost = units * 6;     // Approx cost per unit
 
     document.getElementById("result").innerHTML =
-        `💡 Bill Amount: ₹${billAmount.toFixed(2)} <br>
-         🌍 CO₂ Emission: ${carbon.toFixed(2)} kg`;
+        "Total Units: " + units + " kWh <br>" +
+        "Estimated CO2 Emission: " + co2.toFixed(2) + " kg <br>" +
+        "Estimated Bill Cost: ₹" + cost;
+}
 
-    // Load existing user history
-    let userHistory = JSON.parse(
-        localStorage.getItem("energyHistory_" + user)
-    ) || [];
+function solarEstimate() {
+    let units = document.getElementById("units").value;
 
-    // Remove same month if already exists
-    userHistory = userHistory.filter(item => item.month !== month);
+    if(units == "") {
+        alert("Please enter units first.");
+        return;
+    }
 
-    // Add new record
-    userHistory.push({
-        month: month,
-        units: units,
-        carbon: carbon.toFixed(2)
-    });
+    let requiredKW = units / 120;   // Avg 120 units per 1kW solar per month
+    let solarCost = requiredKW * 55000;
 
-    // Save back to user-specific storage
-    localStorage.setItem(
-        "energyHistory_" + user,
-        JSON.stringify(userHistory)
-    );
+    document.getElementById("result").innerHTML =
+        "Recommended Solar Capacity: " + requiredKW.toFixed(2) + " kW <br>" +
+        "Estimated Installation Cost: ₹" + solarCost.toFixed(0);
+}
+
+function applianceAnalysis() {
+    alert("Appliance Analysis page coming next. We will connect it separately.");
+}
+
+function goDashboard() {
+    window.location.href = "dashboard.html";
 }
 
 </script>
