@@ -13,10 +13,25 @@ body{
 }
 
 header{
-    text-align:center;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     padding:20px;
-    font-size:28px;
+    font-size:22px;
     font-weight:bold;
+}
+
+header span{
+    font-size:16px;
+}
+
+.logout{
+    background:#e74c3c;
+    padding:8px 15px;
+    border:none;
+    border-radius:6px;
+    color:white;
+    cursor:pointer;
 }
 
 .container{
@@ -69,6 +84,7 @@ button.action{
     width:100%;
     background:#3498db;
     margin-top:10px;
+    color:white;
 }
 
 .result{
@@ -82,7 +98,13 @@ button.action{
 
 <body>
 
-<header>⚡ Green Power Smart Dashboard</header>
+<header>
+    ⚡ Green Power Smart Dashboard
+    <span>
+        Welcome, <b id="userName"></b>
+        <button class="logout" onclick="logout()">Logout</button>
+    </span>
+</header>
 
 <div class="container">
 
@@ -90,6 +112,7 @@ button.action{
     <button onclick="showSection('bill')">📄 Bill Analysis</button>
     <button onclick="showSection('solar')">☀ Solar Estimation</button>
     <button onclick="showSection('appliance')">🏠 Appliances Analysis</button>
+    <button onclick="goDashboard()">📊 Dashboard</button>
 </div>
 
 <!-- BILL ANALYSIS -->
@@ -127,11 +150,32 @@ button.action{
 
 <script>
 
+// ✅ Show logged in user
+let user = localStorage.getItem("gpsUser");
+if(!user){
+    window.location.href = "login.html";
+}
+document.getElementById("userName").innerText = user;
+
+// ✅ Show first section automatically
+showSection("bill");
+
 function showSection(id){
     document.querySelectorAll(".section").forEach(sec=>{
         sec.style.display="none";
     });
     document.getElementById(id).style.display="block";
+}
+
+// ✅ Go to dashboard
+function goDashboard(){
+    window.location.href = "dashboard.html";
+}
+
+// ✅ Logout
+function logout(){
+    localStorage.removeItem("gpsUser");
+    window.location.href = "login.html";
 }
 
 /* BILL ANALYSIS */
@@ -145,7 +189,7 @@ function analyzeBill(){
     }
 
     let total = units * rate;
-    let co2 = units * 0.82; // average CO2 per unit in India
+    let co2 = units * 0.82;
 
     document.getElementById("billResult").innerHTML =
         `<b>Total Bill:</b> ₹ ${total.toFixed(2)}<br>
