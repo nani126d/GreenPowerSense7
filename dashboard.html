@@ -1,235 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard | GreenPowerSense</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
-body{
-    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:white;
-    overflow-x:hidden;
-    padding:30px 20px;
-    text-align:center;
-}
-#particles{
-    position:fixed;
-    width:100%;
-    height:100%;
-    top:0;
-    left:0;
-    z-index:-1;
-}
-header{margin-bottom:50px;}
-header h1{
-    font-size:2.5rem;
-    color:#00ff99;
-    text-shadow: 0 0 15px #00ff99;
-}
-.cards{
-    display:flex;
-    justify-content:center;
-    flex-wrap:wrap;
-    gap:30px;
-    margin-bottom:50px;
-}
-.card{
-    background:rgba(255,255,255,0.08);
-    backdrop-filter:blur(15px);
-    padding:30px;
-    border-radius:20px;
-    width:200px;
-    transition:0.5s;
-    transform:translateY(50px);
-    opacity:0;
-}
-.card h3{color:#00ff99;margin-bottom:15px;}
-.card p{font-size:1rem;}
-.card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 0 25px #00ff99;
-}
-canvas{
-    background:rgba(255,255,255,0.05);
-    border-radius:15px;
-    margin-top:30px;
-}
-table{
-    width:100%;
-    margin-top:30px;
-    border-collapse:collapse;
-}
-th,td{
-    border:1px solid #00ff99;
-    padding:8px;
-    border-radius:5px;
-}
-th{color:#00ff99;}
-.btn{
-    margin-top:30px;
-    padding:12px 35px;
-    border-radius:50px;
-    border:none;
-    background:linear-gradient(45deg,#00ff99,#00cc77);
-    color:white;
-    font-size:1rem;
-    font-weight:bold;
-    cursor:pointer;
-    box-shadow:0 0 15px #00ff99;
-    transition:0.5s;
-}
-.btn:hover{
-    transform:scale(1.1);
-    box-shadow:0 0 25px #00ff99;
-}
-@keyframes floatCard{
-    0%{transform:translateY(0);}
-    50%{transform:translateY(-15px);}
-    100%{transform:translateY(0);}
-}
-</style>
+    <title>User Dashboard</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #eaffea;
+            text-align: center;
+            padding: 40px;
+        }
+
+        h1 {
+            color: green;
+        }
+
+        table {
+            margin: auto;
+            border-collapse: collapse;
+            width: 95%;
+            background: white;
+        }
+
+        th, td {
+            border: 1px solid gray;
+            padding: 8px;
+        }
+
+        th {
+            background: green;
+            color: white;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 15px;
+            background: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: darkgreen;
+        }
+    </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
+<h1>Dashboard</h1>
 
-<header>
-<h1>🌿 GreenPowerSense Dashboard</h1>
-</header>
+<h3 id="welcome"></h3>
 
-<div class="cards">
-    <div class="card" id="cardUnits">
-        <h3>Total Units</h3>
-        <p id="totalUnits">0 kWh</p>
-    </div>
-    <div class="card" id="cardCO2">
-        <h3>Total CO₂</h3>
-        <p id="totalCO2">0 kg</p>
-    </div>
-    <div class="card" id="cardScore">
-        <h3>Energy Score</h3>
-        <p id="energyScore">0 / 100</p>
-    </div>
-</div>
+<div id="historySection"></div>
 
-<h2>📈 Monthly Energy Chart</h2>
-<canvas id="energyChart" height="100"></canvas>
-
-<h2>📊 Monthly History Table</h2>
-<table id="historyTable">
-<tr>
-    <th>Month</th>
-    <th>Units</th>
-    <th>CO₂ (kg)</th>
-</tr>
-</table>
-
-<button class="btn" onclick="location.href='index.html'">⬅ Back to Home</button>
+<button onclick="goHome()">Analyze New Bill</button>
+<button onclick="logout()">Logout</button>
 
 <script>
-// LOGIN CHECK
-const user = localStorage.getItem("gpsUser");
-if(!user){
+
+let username = localStorage.getItem("currentUser");
+
+if(!username) {
     window.location.href = "login.html";
 }
 
-// Particle Background
-const canvas = document.getElementById("particles");
-const ctx = canvas.getContext("2d");
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+document.getElementById("welcome").innerHTML = "Welcome, " + username;
 
-let particles = [];
-for(let i=0;i<100;i++){
-    particles.push({
-        x:Math.random()*canvas.width,
-        y:Math.random()*canvas.height,
-        r:Math.random()*2+1,
-        dx:(Math.random()-0.5)*0.5,
-        dy:(Math.random()-0.5)*0.5
-    });
-}
-function animateParticles(){
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    particles.forEach(p=>{
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fillStyle="rgba(0,255,153,0.7)";
-        ctx.fill();
-        p.x += p.dx;
-        p.y += p.dy;
-        if(p.x<0||p.x>canvas.width)p.dx*=-1;
-        if(p.y<0||p.y>canvas.height)p.dy*=-1;
-    });
-    requestAnimationFrame(animateParticles);
-}
-animateParticles();
+// Get user history
+let history = JSON.parse(localStorage.getItem("history_" + username)) || [];
 
-// FIXED STORAGE (USER SPECIFIC)
-function loadDashboardData(){
+if(history.length === 0) {
+    document.getElementById("historySection").innerHTML = 
+        "<p>No analysis history available.</p>";
+} else {
 
-    let history = JSON.parse(
-        localStorage.getItem("energyHistory_" + user)
-    ) || [];
+    let table = "<table>";
+    table += "<tr>";
+    table += "<th>Date</th>";
+    table += "<th>Units</th>";
+    table += "<th>Amount (₹)</th>";
+    table += "<th>CO2 (kg)</th>";
+    table += "<th>Solar Required (kW)</th>";
+    table += "<th>Solar Cost (₹)</th>";
+    table += "<th>Payback (Years)</th>";
+    table += "</tr>";
 
-    let totalUnits = 0, totalCO2 = 0;
-    let months=[], unitsData=[], carbonData=[];
-
-    const table = document.getElementById("historyTable");
-    table.innerHTML = `<tr><th>Month</th><th>Units</th><th>CO₂ (kg)</th></tr>`;
-
-    history.forEach(r=>{
-        totalUnits += parseFloat(r.units);
-        totalCO2 += parseFloat(r.carbon);
-        months.push(r.month);
-        unitsData.push(r.units);
-        carbonData.push(r.carbon);
-
-        table.innerHTML += `<tr>
-            <td>${r.month}</td>
-            <td>${r.units}</td>
-            <td>${r.carbon}</td>
-        </tr>`;
+    history.forEach(record => {
+        table += "<tr>";
+        table += "<td>" + record.date + "</td>";
+        table += "<td>" + record.units + "</td>";
+        table += "<td>" + record.amount + "</td>";
+        table += "<td>" + record.co2 + "</td>";
+        table += "<td>" + record.solarKW + "</td>";
+        table += "<td>" + record.solarCost + "</td>";
+        table += "<td>" + record.payback + "</td>";
+        table += "</tr>";
     });
 
-    const score = history.length>0 ? Math.max(0,100 - (totalUnits/history.length)/5) : 0;
+    table += "</table>";
 
-    document.getElementById("totalUnits").innerText = totalUnits.toFixed(2) + " kWh";
-    document.getElementById("totalCO2").innerText = totalCO2.toFixed(2) + " kg";
-    document.getElementById("energyScore").innerText = score.toFixed(0) + " / 100";
-
-    new Chart(document.getElementById("energyChart"),{
-        type:"line",
-        data:{
-            labels:months,
-            datasets:[{
-                label:"Monthly Units (kWh)",
-                data:unitsData,
-                borderColor:"#00ff99",
-                backgroundColor:"rgba(0,255,153,0.2)",
-                tension:0.4,
-                fill:true
-            }]
-        },
-        options:{
-            responsive:true,
-            plugins:{legend:{display:true}}
-        }
-    });
+    document.getElementById("historySection").innerHTML = table;
 }
 
-const cards = document.querySelectorAll(".card");
-cards.forEach((card,i)=>{
-    setTimeout(()=>{
-        card.style.opacity = "1";
-        card.style.transform = "translateY(0)";
-    }, i*300);
-});
+function goHome() {
+    window.location.href = "home.html";
+}
 
-window.onload = loadDashboardData;
+function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "login.html";
+}
+
 </script>
 
 </body>
