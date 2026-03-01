@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home - Energy Analysis</title>
+    <title>Home - Electricity Bill Analysis</title>
     <style>
         body {
             font-family: Arial;
-            background: #f2fff2;
+            background: #f4fff4;
             text-align: center;
-            padding: 40px;
+            padding: 50px;
         }
 
-        .box {
+        .container {
             background: white;
             width: 60%;
             margin: auto;
@@ -24,8 +24,8 @@
         }
 
         input {
-            padding: 10px;
             width: 70%;
+            padding: 10px;
             margin: 10px;
         }
 
@@ -45,53 +45,66 @@
 </head>
 <body>
 
-<h1>Upload & Analyze Electricity Bill</h1>
+<h1>Electricity Bill Analysis</h1>
 
-<div class="box">
+<div class="container">
 
-    <input type="file" id="billUpload" accept=".jpg,.jpeg,.png,.pdf"><br>
+    <input type="number" id="units" placeholder="Enter Monthly Units (Example: 250)">
+    <br>
 
-    <input type="number" id="units" placeholder="Enter Monthly Units (Example: 250)"><br>
+    <input type="number" id="amount" placeholder="Enter Bill Amount (Example: 1500)">
+    <br>
 
-    <input type="number" id="amount" placeholder="Enter Bill Amount (Example: 1500)"><br>
-
-    <button onclick="analyzeAndEstimate()">Analyze & Estimate Solar</button>
+    <button onclick="analyzeAndSave()">Analyze & Go to Dashboard</button>
 
 </div>
 
 <script>
 
-function analyzeAndEstimate() {
+function analyzeAndSave() {
 
     let units = document.getElementById("units").value;
     let amount = document.getElementById("amount").value;
 
-    if(units == "" || amount == "") {
+    if(units === "" || amount === "") {
         alert("Please enter Units and Bill Amount.");
         return;
     }
 
-    // CO2 Calculation
+    let username = localStorage.getItem("currentUser");
+
+    if(!username) {
+        window.location.href = "login.html";
+        return;
+    }
+
+    // Calculations
     let co2 = units * 0.82;
-
-    // Solar calculation
-    let requiredKW = units / 120;  // 1kW ≈ 120 units/month
+    let requiredKW = units / 120;
     let solarCost = requiredKW * 55000;
-
-    // Payback period
     let yearlySavings = amount * 12;
     let payback = solarCost / yearlySavings;
 
-    // Store all data
-    localStorage.setItem("units", units);
-    localStorage.setItem("amount", amount);
-    localStorage.setItem("co2", co2);
-    localStorage.setItem("requiredKW", requiredKW);
-    localStorage.setItem("solarCost", solarCost);
-    localStorage.setItem("payback", payback);
+    let record = {
+        date: new Date().toLocaleDateString(),
+        units: units,
+        amount: amount,
+        co2: co2.toFixed(2),
+        solarKW: requiredKW.toFixed(2),
+        solarCost: solarCost.toFixed(0),
+        payback: payback.toFixed(1)
+    };
 
-    // Redirect automatically
-    window.location.href = "solar.html";
+    // Get existing history
+    let history = JSON.parse(localStorage.getItem("history_" + username)) || [];
+
+    history.push(record);
+
+    // Save updated history
+    localStorage.setItem("history_" + username, JSON.stringify(history));
+
+    // Go back to dashboard
+    window.location.href = "dashboard.html";
 }
 
 </script>
