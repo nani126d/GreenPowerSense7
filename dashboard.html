@@ -15,8 +15,6 @@ body{
     padding:30px 20px;
     text-align:center;
 }
-
-/* Particle background */
 #particles{
     position:fixed;
     width:100%;
@@ -25,18 +23,12 @@ body{
     left:0;
     z-index:-1;
 }
-
-/* Header */
-header{
-    margin-bottom:50px;
-}
+header{margin-bottom:50px;}
 header h1{
     font-size:2.5rem;
     color:#00ff99;
     text-shadow: 0 0 15px #00ff99;
 }
-
-/* Dashboard cards */
 .cards{
     display:flex;
     justify-content:center;
@@ -54,26 +46,17 @@ header h1{
     transform:translateY(50px);
     opacity:0;
 }
-.card h3{
-    color:#00ff99;
-    margin-bottom:15px;
-}
-.card p{
-    font-size:1rem;
-}
+.card h3{color:#00ff99;margin-bottom:15px;}
+.card p{font-size:1rem;}
 .card:hover{
     transform:translateY(-10px);
     box-shadow:0 0 25px #00ff99;
 }
-
-/* Charts */
 canvas{
     background:rgba(255,255,255,0.05);
     border-radius:15px;
     margin-top:30px;
 }
-
-/* Table */
 table{
     width:100%;
     margin-top:30px;
@@ -84,11 +67,7 @@ th,td{
     padding:8px;
     border-radius:5px;
 }
-th{
-    color:#00ff99;
-}
-
-/* Buttons */
+th{color:#00ff99;}
 .btn{
     margin-top:30px;
     padding:12px 35px;
@@ -106,8 +85,6 @@ th{
     transform:scale(1.1);
     box-shadow:0 0 25px #00ff99;
 }
-
-/* Animations */
 @keyframes floatCard{
     0%{transform:translateY(0);}
     50%{transform:translateY(-15px);}
@@ -153,6 +130,12 @@ th{
 <button class="btn" onclick="location.href='index.html'">⬅ Back to Home</button>
 
 <script>
+// LOGIN CHECK
+const user = localStorage.getItem("gpsUser");
+if(!user){
+    window.location.href = "login.html";
+}
+
 // Particle Background
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
@@ -169,7 +152,6 @@ for(let i=0;i<100;i++){
         dy:(Math.random()-0.5)*0.5
     });
 }
-
 function animateParticles(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     particles.forEach(p=>{
@@ -186,9 +168,13 @@ function animateParticles(){
 }
 animateParticles();
 
-// Load data from LocalStorage
+// FIXED STORAGE (USER SPECIFIC)
 function loadDashboardData(){
-    let history = JSON.parse(localStorage.getItem("energyHistory")) || [];
+
+    let history = JSON.parse(
+        localStorage.getItem("energyHistory_" + user)
+    ) || [];
+
     let totalUnits = 0, totalCO2 = 0;
     let months=[], unitsData=[], carbonData=[];
 
@@ -215,7 +201,6 @@ function loadDashboardData(){
     document.getElementById("totalCO2").innerText = totalCO2.toFixed(2) + " kg";
     document.getElementById("energyScore").innerText = score.toFixed(0) + " / 100";
 
-    // Animated charts
     new Chart(document.getElementById("energyChart"),{
         type:"line",
         data:{
@@ -236,7 +221,6 @@ function loadDashboardData(){
     });
 }
 
-// Animate dashboard cards entrance
 const cards = document.querySelectorAll(".card");
 cards.forEach((card,i)=>{
     setTimeout(()=>{
@@ -245,22 +229,7 @@ cards.forEach((card,i)=>{
     }, i*300);
 });
 
-// Load data on page load
 window.onload = loadDashboardData;
-</script>
-    <script>
-const user = localStorage.getItem("gpsUser");
-
-if(!user){
-    window.location.href = "login.html";
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-    const welcome = document.createElement("h2");
-    welcome.style.color = "#00ff99";
-    welcome.innerText = "Welcome, " + user + " 🌿";
-    document.body.prepend(welcome);
-});
 </script>
 
 </body>
