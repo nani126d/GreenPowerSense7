@@ -4,110 +4,211 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GreenPowerSense</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    font-family:'Poppins', sans-serif;
+    font-family:'Poppins',sans-serif;
 }
 
+/* ===== FULL HERO BACKGROUND ===== */
 body{
-    height:100vh;
-    background: url("GreenPowerSense.jpg") no-repeat center center/cover;
+    background:
+        linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
+        url("GreenPowerSense.jpg");
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+    color:white;
+    min-height:100vh;
+}
+
+/* ===== NAVBAR ===== */
+nav{
     display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:20px 60px;
+    position:fixed;
+    width:100%;
+    top:0;
+    z-index:1000;
+}
+
+/* Logo Left */
+.logo{
+    font-size:1.5rem;
+    font-weight:700;
+    letter-spacing:2px;
+}
+
+/* Center Menu */
+.nav-links{
+    display:flex;
+    gap:40px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:white;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.nav-links a:hover{
+    color:#1e90ff;
+}
+
+/* Right Icons */
+.nav-right{
+    display:flex;
+    gap:20px;
+    font-size:1.2rem;
+    cursor:pointer;
+}
+
+/* ===== HERO SECTION ===== */
+.hero{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
     justify-content:center;
     align-items:center;
     text-align:center;
-    color:white;
+    padding-top:80px;
 }
 
-/* Dark overlay */
-body::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.6);
-    z-index:0;
-}
-
-.container{
-    position:relative;
-    z-index:1;
-    max-width:800px;
-    padding:20px;
-}
-
-h1{
-    font-size:48px;
+.hero h1{
+    font-size:3.5rem;
     font-weight:700;
-    letter-spacing:2px;
-    margin-bottom:20px;
-    color:#ffffff;
+    margin-bottom:15px;
 }
 
-.highlight{
-    color:#3b82f6;   /* Professional Blue */
-}
-
-p{
-    font-size:18px;
-    margin-bottom:30px;
-    color:#e2e8f0;
+.hero p{
+    font-size:1.2rem;
+    margin-bottom:40px;
+    opacity:0.9;
 }
 
 /* Buttons */
 .hero-buttons{
-    margin-top:20px;
+    display:flex;
+    gap:20px;
+    margin-bottom:50px;
 }
 
 .btn{
-    display:inline-block;
-    padding:12px 30px;
-    margin:10px;
+    padding:15px 40px;
     border-radius:30px;
-    text-decoration:none;
+    border:none;
     font-weight:600;
-    background:#3b82f6;
-    color:white;
+    cursor:pointer;
     transition:0.3s;
 }
 
-.btn:hover{
-    background:#2563eb;
-    transform:scale(1.08);
+.btn-primary{
+    background:#ffffff;
+    color:black;
 }
 
-.btn.secondary{
-    background:#0f172a;
+.btn-primary:hover{
+    background:#e5e5e5;
 }
 
-.btn.secondary:hover{
-    background:#1e293b;
+.btn-outline{
+    background:transparent;
+    border:2px solid white;
+    color:white;
+}
+
+.btn-outline:hover{
+    background:white;
+    color:black;
+}
+
+/* ===== EMAIL SIGNUP ===== */
+.signup{
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(15px);
+    padding:25px 40px;
+    border-radius:15px;
+    display:flex;
+    gap:15px;
+    align-items:center;
+}
+
+.signup input{
+    padding:12px 20px;
+    border:none;
+    border-radius:25px;
+    outline:none;
+    width:250px;
+}
+
+.signup button{
+    padding:12px 25px;
+    border:none;
+    border-radius:25px;
+    background:#1e90ff;
+    color:white;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.signup button:hover{
+    background:#005bea;
+}
+
+/* Responsive */
+@media(max-width:900px){
+    .nav-links{display:none;}
+    .hero h1{font-size:2.5rem;}
+    .hero-buttons{flex-direction:column;}
+    .signup{flex-direction:column;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <h1><span class="highlight">Green</span>PowerSense</h1>
+<!-- ===== NAVBAR ===== -->
+<nav>
+    <div class="logo">GreenPowerSense</div>
 
-    <p>
-        Intelligent Electricity Analysis & Smart Solar Guidance for Modern Homes.
-    </p>
+    <div class="nav-links">
+        <a href="#">Home</a>
+        <a href="#">Energy</a>
+        <a href="#">Solar</a>
+        <a href="#">Dashboard</a>
+        <a href="#">Shop</a>
+    </div>
+
+    <div class="nav-right">
+        <i class="fas fa-globe"></i>
+        <i class="fas fa-user"></i>
+    </div>
+</nav>
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero">
+    <h1>Power Your Home Smartly</h1>
+    <p>Monitor electricity usage, reduce costs, and switch to clean solar energy.</p>
 
     <div class="hero-buttons">
-        <a href="login.html" class="btn">Get Started</a>
-        <a href="admin.html" class="btn secondary">Admin Panel</a>
+        <button class="btn btn-primary">Get a Solar Quote</button>
+        <button class="btn btn-outline">Speak to Advisor</button>
     </div>
-</div>
+
+    <div class="signup">
+        <input type="email" placeholder="Enter your email">
+        <button>Sign Up</button>
+    </div>
+</section>
 
 </body>
 </html>
