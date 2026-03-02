@@ -1,97 +1,213 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sign Up - GreenPowerSense</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-
 body{
     margin:0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family:Arial;
     height:100vh;
     display:flex;
-    justify-content:flex-end;
+    justify-content:center;
     align-items:center;
-    padding-right:80px;
-
-    background: url('GreenPowerSense8.jpg') no-repeat center center/cover;
+    background:url('GreenPowerSense8.jpg') no-repeat center/cover;
 }
 
-/* Signup Box */
-.signup-box{
-    width:500px;           /* 🔥 Wider than login */
-    padding:40px;
-    background: rgba(255,255,255,0.95);
-    border-radius:20px;
-    box-shadow:0 15px 40px rgba(0,0,0,0.3);
+.box{
+    width:420px;
+    padding:35px;
+    background:rgba(255,255,255,0.95);
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
 h2{
     text-align:center;
-    margin-bottom:25px;
+    margin-bottom:20px;
 }
 
 input{
     width:100%;
-    padding:14px;
-    margin:12px 0;
-    border-radius:10px;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
     border:1px solid #ccc;
-    font-size:16px;
+    font-size:15px;
 }
 
 button{
     width:100%;
-    padding:14px;
-    margin-top:15px;
+    padding:12px;
     border:none;
-    border-radius:10px;
+    border-radius:8px;
+    background:#1e3c72;
+    color:white;
     font-size:16px;
     cursor:pointer;
-    background:#1e293b;
-    color:white;
-    transition:0.3s;
 }
 
 button:hover{
-    background:#0f172a;
+    background:#2a5298;
 }
 
 p{
     text-align:center;
     margin-top:15px;
 }
-
 a{
     text-decoration:none;
-    color:#1e293b;
+    color:#1e3c72;
     font-weight:bold;
 }
-
 </style>
 </head>
+
 <body>
 
-<div class="signup-box">
+<div class="box">
     <h2>Create Account</h2>
 
-    <input type="text" placeholder="Full Name">
-    <input type="email" placeholder="Email Address">
-    <input type="password" placeholder="Password">
-    <input type="password" placeholder="Confirm Password">
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
 
     <button onclick="signup()">Sign Up</button>
 
-    <p>Already have an account? 
-       <a href="login.html">Login here</a>
-    </p>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+    <p><a href="index.html">⬅ Back to Home</a></p>
 </div>
 
 <script>
 function signup(){
-    alert("Signup functionality will be connected to backend later.");
+    let name=document.getElementById("name").value.trim();
+    let email=document.getElementById("email").value.trim();
+    let password=document.getElementById("password").value.trim();
+
+    if(name==="" || email==="" || password===""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    let user = {
+        name:name,
+        email:email,
+        password:password
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("loggedInUser", JSON.stringify(user)); // Auto login
+
+    alert("Account created successfully!");
+    window.location.href="index.html";
+}
+</script>
+
+</body>
+</html><!DOCTYPE html>
+<html>
+<head>
+<title>Sign Up - GreenPowerSense</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+    margin:0;
+    font-family:Arial;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:url('GreenPowerSense8.jpg') no-repeat center/cover;
+}
+
+.box{
+    width:420px;
+    padding:35px;
+    background:rgba(255,255,255,0.95);
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:8px;
+    border:1px solid #ccc;
+    font-size:15px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#1e3c72;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#2a5298;
+}
+
+p{
+    text-align:center;
+    margin-top:15px;
+}
+a{
+    text-decoration:none;
+    color:#1e3c72;
+    font-weight:bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Create Account</h2>
+
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="signup()">Sign Up</button>
+
+    <p>Already have an account? <a href="login.html">Login</a></p>
+    <p><a href="index.html">⬅ Back to Home</a></p>
+</div>
+
+<script>
+function signup(){
+    let name=document.getElementById("name").value.trim();
+    let email=document.getElementById("email").value.trim();
+    let password=document.getElementById("password").value.trim();
+
+    if(name==="" || email==="" || password===""){
+        alert("Please fill all fields");
+        return;
+    }
+
+    let user = {
+        name:name,
+        email:email,
+        password:password
+    };
+
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("loggedInUser", JSON.stringify(user)); // Auto login
+
+    alert("Account created successfully!");
+    window.location.href="index.html";
 }
 </script>
 
