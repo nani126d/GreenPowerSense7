@@ -61,6 +61,11 @@ p{
     color:#e2e8f0;
 }
 
+/* Buttons container */
+.buttons{
+    margin-top:20px;
+}
+
 .btn{
     display:inline-block;
     padding:14px 35px;
@@ -71,11 +76,21 @@ p{
     background:#3b82f6;
     color:white;
     transition:0.3s ease;
+    margin:10px;
 }
 
 .btn:hover{
     background:#2563eb;
     transform:scale(1.08);
+}
+
+/* Get Started special style */
+.get-started{
+    background:#1e40af;
+}
+
+.get-started:hover{
+    background:#1e3a8a;
 }
 </style>
 </head>
@@ -89,9 +104,16 @@ p{
         Smart Energy Analysis & Solar Guidance for Modern Homes.
     </p>
 
-    <!-- ONLY ONE BUTTON -->
-    <a href="auth.html" class="btn">Get Started</a>
+    <div class="buttons">
 
+        <!-- NEW GET STARTED BUTTON -->
+        <a href="login.html" class="btn get-started">Get Started</a>
+
+        <!-- Your existing buttons -->
+        <a href="login.html" class="btn">Sign In</a>
+        <a href="signup.html" class="btn">Sign Up</a>
+
+    </div>
 </div>
 
 </body>
