@@ -19,11 +19,11 @@
 body{
     height:100vh;
     display:flex;
-    justify-content:flex-end;   /* Moves box to RIGHT */
+    justify-content:flex-end;
     align-items:center;
-    padding-right:8%;          /* Space from right edge */
+    padding-right:6%;
     background:
-        linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),
+        linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),
         url("GreenPowerSense7.jpg");
     background-size:cover;
     background-position:center;
@@ -31,38 +31,41 @@ body{
 
 /* ===== LOGIN BOX ===== */
 .box{
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(20px);
-    padding:45px;
-    border-radius:15px;
-    width:350px;
+    background:rgba(255,255,255,0.12);
+    backdrop-filter:blur(25px);
+    padding:60px;
+    border-radius:20px;
+    width:420px;          /* Bigger width */
     color:white;
-    box-shadow:0 10px 30px rgba(0,0,0,0.4);
+    box-shadow:0 15px 40px rgba(0,0,0,0.5);
 }
 
 .box h2{
-    margin-bottom:25px;
+    margin-bottom:30px;
     text-align:center;
+    font-size:28px;
 }
 
 .box input{
     width:100%;
-    padding:14px;
-    margin:12px 0;
+    padding:16px;
+    margin:15px 0;
     border:none;
-    border-radius:25px;
+    border-radius:30px;
     outline:none;
+    font-size:15px;
 }
 
 .box button{
     width:100%;
-    padding:14px;
-    margin-top:15px;
+    padding:16px;
+    margin-top:20px;
     border:none;
-    border-radius:25px;
+    border-radius:30px;
     background:#1e90ff;
     color:white;
     font-weight:600;
+    font-size:16px;
     cursor:pointer;
     transition:0.3s;
 }
@@ -71,26 +74,35 @@ body{
     background:#005bea;
 }
 
+.box p{
+    margin-top:20px;
+    text-align:center;
+}
+
 .box a{
     color:#1e90ff;
     text-decoration:none;
     font-weight:600;
 }
 
-/* Mobile Responsive */
+/* Mobile */
 @media(max-width:768px){
     body{
         justify-content:center;
         padding-right:0;
     }
+    .box{
+        width:90%;
+        padding:40px;
+    }
 }
 </style>
-
 </head>
+
 <body>
 
 <div class="box">
-    <h2>Login</h2>
+    <h2>Login to GreenPowerSense</h2>
 
     <input type="email" placeholder="Email">
     <input type="password" placeholder="Password">
@@ -99,7 +111,7 @@ body{
         Login
     </button>
 
-    <p style="margin-top:15px; text-align:center;">
+    <p>
         Don't have an account?
         <a href="signup.html">Create an Account</a>
     </p>
