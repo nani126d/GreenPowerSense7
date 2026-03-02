@@ -66,6 +66,16 @@ nav{
     gap:20px;
     font-size:1.2rem;
     cursor:pointer;
+    align-items:center;
+}
+
+/* USER PROFILE */
+.user-profile{
+    background:rgba(255,255,255,0.2);
+    padding:8px 15px;
+    border-radius:20px;
+    font-size:0.9rem;
+    display:none;
 }
 
 /* ===== HERO SECTION ===== */
@@ -79,7 +89,6 @@ nav{
     padding-top:80px;
 }
 
-/* NEW CENTER TITLE */
 .hero h2{
     font-size:1.5rem;
     font-weight:600;
@@ -137,38 +146,10 @@ nav{
     color:black;
 }
 
-/* ===== EMAIL SIGNUP ===== */
-.signup{
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(15px);
-    padding:25px 40px;
-    border-radius:15px;
+/* LOGIN SIGNUP BUTTONS */
+.auth-buttons{
     display:flex;
-    gap:15px;
-    align-items:center;
-}
-
-.signup input{
-    padding:12px 20px;
-    border:none;
-    border-radius:25px;
-    outline:none;
-    width:250px;
-}
-
-.signup button{
-    padding:12px 25px;
-    border:none;
-    border-radius:25px;
-    background:#1e90ff;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-    transition:0.3s;
-}
-
-.signup button:hover{
-    background:#005bea;
+    gap:20px;
 }
 
 /* Responsive */
@@ -176,7 +157,6 @@ nav{
     .nav-links{display:none;}
     .hero h1{font-size:2.5rem;}
     .hero-buttons{flex-direction:column;}
-    .signup{flex-direction:column;}
 }
 </style>
 </head>
@@ -197,6 +177,7 @@ nav{
 
     <div class="nav-right">
         <i class="fas fa-globe"></i>
+        <div id="userProfile" class="user-profile"></div>
         <i class="fas fa-user"></i>
     </div>
 </nav>
@@ -204,27 +185,31 @@ nav{
 <!-- ===== HERO SECTION ===== -->
 <section class="hero">
 
-    <!-- Added Title in Center -->
     <h2>GreenPowerSense</h2>
 
     <h1>Power Your Home Smartly</h1>
 
-    <!-- Solar changed to Green -->
     <p>Monitor electricity usage, reduce costs, and switch to clean green energy.</p>
 
     <div class="hero-buttons">
-        <a href="login.html" class="btn btn-primary">Get Started</a>
-        <a href="#" class="btn btn-outline">Speak to Advisor</a>
-    </div>
-
-    <div class="signup">
-        <input type="email" placeholder="Enter your email">
-        <a href="signup.html">
-            <button>Sign Up</button>
-        </a>
+        <a href="login.html" class="btn btn-primary">Login</a>
+        <a href="signup.html" class="btn btn-outline">Sign Up</a>
     </div>
 
 </section>
+
+<script>
+window.onload = function(){
+    let loggedIn = localStorage.getItem("gps_loggedin");
+    let username = localStorage.getItem("gps_username");
+
+    if(loggedIn === "true" && username){
+        let profile = document.getElementById("userProfile");
+        profile.style.display = "block";
+        profile.innerHTML = "Hi, " + username;
+    }
+}
+</script>
 
 </body>
 </html>
