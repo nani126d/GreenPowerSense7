@@ -10,7 +10,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 
-/* ✅ UPDATED BACKGROUND */
+/* Background Image */
 body{
     margin:0;
     background-image:
@@ -42,11 +42,14 @@ header{
     padding:120px 20px 80px;
 }
 
+/* ✅ PROFESSIONAL TITLE */
 header h1{
     font-size:3rem;
-    color:#00ff99;
-    text-shadow:0 0 20px #00ff99,0 0 30px #00ff99;
-    animation:fadeInDown 1s ease forwards, neonPulse 2s ease-in-out infinite alternate;
+    background: linear-gradient(90deg,#ffffff,#1e90ff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    text-shadow:0 4px 20px rgba(0,0,0,0.4);
+    animation:fadeInDown 1s ease forwards;
 }
 
 header p{
@@ -54,7 +57,7 @@ header p{
     margin-top:15px;
     opacity:0;
     animation:fadeInUp 1.5s ease forwards;
-    text-shadow:0 0 10px rgba(0,255,153,0.7);
+    text-shadow:0 0 10px rgba(0,0,0,0.6);
 }
 
 /* Button */
@@ -64,18 +67,18 @@ header p{
     padding:15px 50px;
     border-radius:50px;
     border:none;
-    background:linear-gradient(45deg,#00ff99,#00cc77);
+    background:linear-gradient(45deg,#1e90ff,#005bea);
     color:white;
     font-size:1rem;
     font-weight:bold;
     cursor:pointer;
-    box-shadow:0 0 15px #00ff99,0 0 30px rgba(0,255,153,0.4) inset;
+    box-shadow:0 5px 20px rgba(0,0,0,0.4);
     transition:0.4s;
 }
 
 .btn:hover{
     transform:scale(1.1);
-    box-shadow:0 0 35px #00ff99,0 0 50px rgba(0,255,153,0.5) inset;
+    box-shadow:0 8px 30px rgba(0,0,0,0.6);
 }
 
 /* Cards */
@@ -101,18 +104,24 @@ header p{
 
 .card:hover{
     transform:translateY(-10px) scale(1.05);
-    box-shadow:0 0 35px #00ff99;
+    box-shadow:0 0 35px rgba(30,144,255,0.6);
 }
 
 .card i{
     font-size:2rem;
-    color:#00ff99;
+    color:#1e90ff;
     margin-bottom:15px;
 }
 
 .card h3{
-    color:#00ff99;
+    color:#1e90ff;
     margin-bottom:15px;
+}
+
+.card p{
+    font-size:0.9rem;
+    line-height:1.5;
+    color:rgba(255,255,255,0.9);
 }
 
 /* Animations */
@@ -126,9 +135,13 @@ header p{
     100%{opacity:1; transform:translateY(0);}
 }
 
-@keyframes neonPulse {
-    0% { text-shadow: 0 0 10px #00ff99; }
-    100% { text-shadow: 0 0 30px #00ff99; }
+/* Responsive */
+@media(max-width:768px){
+    header h1{font-size:2.2rem;}
+    header p{font-size:1rem;}
+    .cards{gap:20px;}
+    .card{width:180px;padding:25px;}
+    .btn{padding:12px 35px;font-size:0.9rem;}
 }
 </style>
 </head>
@@ -155,7 +168,7 @@ header p{
     <div class="card">
         <i class="fas fa-file-invoice-dollar"></i>
         <h3>Bill Analysis</h3>
-        <p>Calculate electricity bills & optimize energy usage.</p>
+        <p>Calculate electricity bills & optimize your energy consumption.</p>
     </div>
 
     <div class="card">
@@ -167,7 +180,7 @@ header p{
     <div class="card">
         <i class="fas fa-chart-line"></i>
         <h3>Dashboard</h3>
-        <p>View usage history, charts, and energy scores.</p>
+        <p>View all usage history, charts, and energy scores in one place.</p>
     </div>
 </div>
 
