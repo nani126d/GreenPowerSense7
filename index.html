@@ -1,220 +1,87 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GreenPowerSense</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
-}
-
-/* ===== BACKGROUND ===== */
 body{
-    background:
-        linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
-        url("GreenPowerSense.jpg");
-    background-size:cover;
-    background-position:center;
-    background-attachment:fixed;
-    color:white;
-    min-height:100vh;
-}
-
-/* ===== NAVBAR ===== */
-nav{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:20px 60px;
-    position:fixed;
-    width:100%;
-    top:0;
-    z-index:1000;
-}
-
-.logo{
-    font-size:1.5rem;
-    font-weight:700;
-    letter-spacing:2px;
-}
-
-.nav-links{
-    display:flex;
-    gap:40px;
-}
-
-.nav-links a{
-    text-decoration:none;
-    color:white;
-    font-weight:500;
-    transition:0.3s;
-}
-
-.nav-links a:hover{
-    color:#1e90ff;
-}
-
-.nav-right{
-    display:flex;
-    gap:20px;
-    font-size:1.2rem;
-    cursor:pointer;
-}
-
-/* ===== HERO ===== */
-.hero{
+    margin:0;
+    font-family:Arial;
     height:100vh;
     display:flex;
-    flex-direction:column;
     justify-content:center;
     align-items:center;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
     text-align:center;
-    padding-top:80px;
 }
 
-.hero h2{
-    font-size:1.5rem;
-    font-weight:600;
-    letter-spacing:2px;
-    margin-bottom:15px;
+.container{
+    max-width:600px;
 }
 
-.hero h1{
-    font-size:3.5rem;
-    font-weight:700;
-    margin-bottom:15px;
+h1{
+    font-size:40px;
+    margin-bottom:20px;
 }
 
-.hero p{
-    font-size:1.2rem;
-    margin-bottom:40px;
-    opacity:0.9;
-}
-
-.hero-buttons{
-    display:flex;
-    gap:20px;
-    margin-bottom:50px;
-}
-
-.btn{
-    padding:15px 40px;
-    border-radius:30px;
-    font-weight:600;
+button{
+    padding:14px 28px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    font-size:16px;
     cursor:pointer;
+    background:#00c6ff;
+    color:white;
     transition:0.3s;
-    text-decoration:none;
-    display:inline-block;
 }
 
-.btn-primary{
-    background:#ffffff;
-    color:black;
+button:hover{
+    background:#0072ff;
 }
 
-.btn-primary:hover{
-    background:#e5e5e5;
-}
-
-.btn-outline{
-    background:transparent;
-    border:2px solid white;
-    color:white;
-}
-
-.btn-outline:hover{
-    background:white;
-    color:black;
-}
-
-/* Signup */
-.signup{
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(15px);
-    padding:25px 40px;
-    border-radius:15px;
-    display:flex;
-    gap:15px;
-    align-items:center;
-}
-
-.signup input{
-    padding:12px 20px;
-    border:none;
-    border-radius:25px;
-    outline:none;
-    width:250px;
-}
-
-.signup button{
-    padding:12px 25px;
-    border:none;
-    border-radius:25px;
-    background:#1e90ff;
-    color:white;
-    font-weight:600;
-    cursor:pointer;
-}
-
-.signup button:hover{
-    background:#005bea;
-}
-
-@media(max-width:900px){
-    .nav-links{display:none;}
-    .hero h1{font-size:2.5rem;}
-    .hero-buttons{flex-direction:column;}
-    .signup{flex-direction:column;}
+#welcome{
+    font-size:20px;
+    margin-bottom:20px;
 }
 </style>
 </head>
-
 <body>
 
-<nav>
-    <div class="logo">GreenPowerSense</div>
+<div class="container">
 
-    <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="energy.html">Energy</a>
-        <a href="green.html">Green</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="shop.html">Shop</a>
+    <h1>GreenPowerSense</h1>
+
+    <div id="welcome"></div>
+
+    <div id="authButtons">
+        <button onclick="location.href='login.html'">Login</button>
+        <button onclick="location.href='signup.html'">Sign Up</button>
     </div>
 
-    <div class="nav-right">
-        <i class="fas fa-globe"></i>
-        <i class="fas fa-user"></i>
-    </div>
-</nav>
+    <button id="logoutBtn" style="display:none;" onclick="logout()">Logout</button>
 
-<section class="hero">
+</div>
 
-    <h2>GreenPowerSense</h2>
-    <h1>Power Your Home Smartly</h1>
-    <p>Monitor electricity usage, reduce costs, and switch to clean green energy.</p>
+<script>
 
-    <div class="hero-buttons">
-        <a href="login.html" class="btn btn-primary">Get Started</a>
-        <a href="advisor.html" class="btn btn-outline">Speak to Advisor</a>
-    </div>
+// Check if user is logged in
+let user = JSON.parse(localStorage.getItem("loggedInUser"));
 
-    <div class="signup">
-        <input type="email" placeholder="Enter your email">
-        <a href="signup.html">
-            <button>Sign Up</button>
-        </a>
-    </div>
+if(user){
+    document.getElementById("welcome").innerHTML = "Hi, " + user.name + " 👋";
+    document.getElementById("authButtons").style.display = "none";
+    document.getElementById("logoutBtn").style.display = "inline-block";
+}
 
-</section>
+function logout(){
+    localStorage.removeItem("loggedInUser");
+    location.reload();
+}
+
+</script>
 
 </body>
 </html>
