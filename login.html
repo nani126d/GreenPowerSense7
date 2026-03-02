@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Login - GreenPowerSense</title>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login - GreenPowerSense</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
@@ -14,12 +15,13 @@
     font-family:'Poppins',sans-serif;
 }
 
-/* Background Image */
+/* ===== BACKGROUND ===== */
 body{
     height:100vh;
     display:flex;
-    justify-content:center;
+    justify-content:flex-end;   /* Moves box to RIGHT */
     align-items:center;
+    padding-right:8%;          /* Space from right edge */
     background:
         linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),
         url("GreenPowerSense7.jpg");
@@ -27,25 +29,26 @@ body{
     background-position:center;
 }
 
-/* Login Box */
+/* ===== LOGIN BOX ===== */
 .box{
     background:rgba(255,255,255,0.1);
     backdrop-filter:blur(20px);
-    padding:40px;
+    padding:45px;
     border-radius:15px;
-    width:320px;
-    text-align:center;
+    width:350px;
     color:white;
+    box-shadow:0 10px 30px rgba(0,0,0,0.4);
 }
 
 .box h2{
-    margin-bottom:20px;
+    margin-bottom:25px;
+    text-align:center;
 }
 
 .box input{
     width:100%;
-    padding:12px;
-    margin:10px 0;
+    padding:14px;
+    margin:12px 0;
     border:none;
     border-radius:25px;
     outline:none;
@@ -53,7 +56,7 @@ body{
 
 .box button{
     width:100%;
-    padding:12px;
+    padding:14px;
     margin-top:15px;
     border:none;
     border-radius:25px;
@@ -69,9 +72,17 @@ body{
 }
 
 .box a{
-    color:#ffffff;
+    color:#1e90ff;
     text-decoration:none;
-    font-size:0.9rem;
+    font-weight:600;
+}
+
+/* Mobile Responsive */
+@media(max-width:768px){
+    body{
+        justify-content:center;
+        padding-right:0;
+    }
 }
 </style>
 
@@ -80,11 +91,17 @@ body{
 
 <div class="box">
     <h2>Login</h2>
+
     <input type="email" placeholder="Email">
     <input type="password" placeholder="Password">
-    <button onclick="window.location.href='dashboard.html'">Login</button>
-    <p style="margin-top:15px;">
-        Don't have an account? <a href="signup.html">Sign Up</a>
+
+    <button onclick="window.location.href='dashboard.html'">
+        Login
+    </button>
+
+    <p style="margin-top:15px; text-align:center;">
+        Don't have an account?
+        <a href="signup.html">Create an Account</a>
     </p>
 </div>
 
