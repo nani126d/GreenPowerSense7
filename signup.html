@@ -2,79 +2,98 @@
 <html>
 <head>
 <title>Sign Up - GreenPowerSense</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
     margin:0;
-    font-family:Arial;
     height:100vh;
     display:flex;
-    justify-content:center;
+    justify-content:flex-end;  /* RIGHT SIDE */
     align-items:center;
-    background:url('GreenPowerSense8.jpg') no-repeat center/cover;
+    font-family:'Segoe UI',sans-serif;
+    background: url("GreenPowerSense8.jpg") no-repeat center center/cover;
 }
 
-.box{
-    width:420px;
-    padding:30px;
-    background:rgba(255,255,255,0.95);
+.signup-box{
+    width:480px;  /* MORE WIDTH */
+    padding:35px 40px;
+    margin-right:60px;
+    background:rgba(255,255,255,0.15);
+    backdrop-filter:blur(15px);
     border-radius:15px;
+    box-shadow:0 8px 30px rgba(0,0,0,0.3);
+    color:white;
+}
+
+.signup-box h2{
+    text-align:center;
+    margin-bottom:25px;
 }
 
 input{
     width:100%;
     padding:12px;
-    margin:10px 0;
+    margin:12px 0;
+    border:none;
     border-radius:8px;
-    border:1px solid #ccc;
+    font-size:15px;
 }
 
 button{
     width:100%;
     padding:12px;
+    margin-top:10px;
     border:none;
     border-radius:8px;
-    background:#1e3c72;
+    background:#3498db;
     color:white;
     font-size:16px;
     cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#2980b9;
+}
+
+a{
+    color:#fff;
+    text-decoration:underline;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-<h2>Create Account</h2>
+<div class="signup-box">
+    <h2>Create Account</h2>
 
-<input type="text" id="name" placeholder="Full Name">
-<input type="email" id="email" placeholder="Email">
-<input type="password" id="password" placeholder="Password">
+    <form onsubmit="signupUser(event)">
+        <input type="text" id="signupUsername" placeholder="Username" required>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <button type="submit">Sign Up</button>
+    </form>
 
-<button onclick="signup()">Sign Up</button>
-
-<p>Already have account? <a href="login.html">Login</a></p>
+    <p style="text-align:center;margin-top:15px;">
+        Already have an account?
+        <a href="login.html">Login</a>
+    </p>
 </div>
 
 <script>
-function signup(){
-    let name=document.getElementById("name").value.trim();
-    let email=document.getElementById("email").value.trim();
-    let password=document.getElementById("password").value.trim();
+function signupUser(e){
+    e.preventDefault();
 
-    if(name==="" || email==="" || password===""){
-        alert("Please fill all fields");
-        return;
-    }
+    let username = document.getElementById("signupUsername").value;
+    let password = document.getElementById("signupPassword").value;
 
-    let user={name,email,password};
-
-    localStorage.setItem("user",JSON.stringify(user));
-    localStorage.setItem("loggedInUser",JSON.stringify(user));
+    localStorage.setItem("gps_username", username);
+    localStorage.setItem("gps_password", password);
+    localStorage.setItem("gps_loggedin", "true");
 
     alert("Account Created Successfully!");
-    window.location.href="index.html";
+    window.location.href = "index.html";
 }
 </script>
 
