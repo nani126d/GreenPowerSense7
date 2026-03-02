@@ -1,31 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Login - GreenPowerSense</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
 body{
     margin:0;
     font-family:Arial;
     height:100vh;
     display:flex;
-    justify-content:center;
+    justify-content:flex-end;   /* move to right */
     align-items:center;
+    padding-right:80px;         /* space from edge */
     background:url('GreenPowerSense7.jpg') no-repeat center/cover;
 }
 
 .box{
-    width:420px;
-    padding:35px;
+    width:550px;                /* wider */
+    padding:30px;
     background:rgba(255,255,255,0.95);
     border-radius:15px;
-    box-shadow:0 10px 30px rgba(0,0,0,0.3);
-}
-
-h2{
-    text-align:center;
-    margin-bottom:20px;
 }
 
 input{
@@ -34,7 +23,6 @@ input{
     margin:10px 0;
     border-radius:8px;
     border:1px solid #ccc;
-    font-size:15px;
 }
 
 button{
@@ -47,59 +35,4 @@ button{
     font-size:16px;
     cursor:pointer;
 }
-
-button:hover{
-    background:#2a5298;
-}
-
-p{
-    text-align:center;
-    margin-top:15px;
-}
-
-a{
-    text-decoration:none;
-    color:#1e3c72;
-    font-weight:bold;
-}
 </style>
-</head>
-
-<body>
-
-<div class="box">
-    <h2>Login</h2>
-
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Password">
-
-    <button onclick="login()">Login</button>
-
-    <p>Don't have an account? <a href="signup.html">Sign Up</a></p>
-    <p><a href="index.html">⬅ Back to Home</a></p>
-</div>
-
-<script>
-function login(){
-    let email=document.getElementById("email").value.trim();
-    let password=document.getElementById("password").value.trim();
-
-    let storedUser = JSON.parse(localStorage.getItem("user"));
-
-    if(!storedUser){
-        alert("No account found. Please Sign Up first.");
-        return;
-    }
-
-    if(email === storedUser.email && password === storedUser.password){
-        localStorage.setItem("loggedInUser", JSON.stringify(storedUser));
-        alert("Login Successful!");
-        window.location.href="index.html";
-    }else{
-        alert("Invalid Email or Password");
-    }
-}
-</script>
-
-</body>
-</html>
