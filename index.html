@@ -39,14 +39,12 @@ nav{
     z-index:1000;
 }
 
-/* Logo Left */
 .logo{
     font-size:1.5rem;
     font-weight:700;
     letter-spacing:2px;
 }
 
-/* Center Menu */
 .nav-links{
     display:flex;
     gap:40px;
@@ -63,7 +61,6 @@ nav{
     color:#1e90ff;
 }
 
-/* Right Icons */
 .nav-right{
     display:flex;
     gap:20px;
@@ -80,6 +77,14 @@ nav{
     align-items:center;
     text-align:center;
     padding-top:80px;
+}
+
+/* NEW CENTER TITLE */
+.hero h2{
+    font-size:1.5rem;
+    font-weight:600;
+    letter-spacing:2px;
+    margin-bottom:15px;
 }
 
 .hero h1{
@@ -108,6 +113,8 @@ nav{
     font-weight:600;
     cursor:pointer;
     transition:0.3s;
+    text-decoration:none;
+    display:inline-block;
 }
 
 .btn-primary{
@@ -183,7 +190,7 @@ nav{
     <div class="nav-links">
         <a href="#">Home</a>
         <a href="#">Energy</a>
-        <a href="#">Solar</a>
+        <a href="#">Green</a>
         <a href="#">Dashboard</a>
         <a href="#">Shop</a>
     </div>
@@ -196,18 +203,27 @@ nav{
 
 <!-- ===== HERO SECTION ===== -->
 <section class="hero">
+
+    <!-- Added Title in Center -->
+    <h2>GreenPowerSense</h2>
+
     <h1>Power Your Home Smartly</h1>
-    <p>Monitor electricity usage, reduce costs, and switch to clean solar energy.</p>
+
+    <!-- Solar changed to Green -->
+    <p>Monitor electricity usage, reduce costs, and switch to clean green energy.</p>
 
     <div class="hero-buttons">
-        <button class="btn btn-primary">Get a Solar Quote</button>
-        <button class="btn btn-outline">Speak to Advisor</button>
+        <a href="login.html" class="btn btn-primary">Get Started</a>
+        <a href="#" class="btn btn-outline">Speak to Advisor</a>
     </div>
 
     <div class="signup">
         <input type="email" placeholder="Enter your email">
-        <button>Sign Up</button>
+        <a href="signup.html">
+            <button>Sign Up</button>
+        </a>
     </div>
+
 </section>
 
 </body>
