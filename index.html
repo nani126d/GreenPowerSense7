@@ -42,45 +42,34 @@ button:hover{
     background:#0072ff;
 }
 
-#welcome{
-    font-size:20px;
-    margin-bottom:20px;
+#userGreeting{
+    margin-top:15px;
+    font-size:18px;
 }
 </style>
 </head>
+
 <body>
 
 <div class="container">
-
     <h1>GreenPowerSense</h1>
+    <p>Smart Green Energy Analysis System</p>
 
-    <div id="welcome"></div>
+    <!-- Username will appear here -->
+    <div id="userGreeting"></div>
 
-    <div id="authButtons">
-        <button onclick="location.href='login.html'">Login</button>
-        <button onclick="location.href='signup.html'">Sign Up</button>
-    </div>
-
-    <button id="logoutBtn" style="display:none;" onclick="logout()">Logout</button>
-
+    <button onclick="location.href='login.html'">Login</button>
+    <button onclick="location.href='signup.html'">Sign Up</button>
 </div>
 
 <script>
-
-// Check if user is logged in
+// Show username if logged in
 let user = JSON.parse(localStorage.getItem("loggedInUser"));
 
 if(user){
-    document.getElementById("welcome").innerHTML = "Hi, " + user.name + " 👋";
-    document.getElementById("authButtons").style.display = "none";
-    document.getElementById("logoutBtn").style.display = "inline-block";
+    document.getElementById("userGreeting").innerHTML =
+        "Hi, " + user.name + " 👋";
 }
-
-function logout(){
-    localStorage.removeItem("loggedInUser");
-    location.reload();
-}
-
 </script>
 
 </body>
