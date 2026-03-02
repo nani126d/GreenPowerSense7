@@ -5,224 +5,119 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GreenPowerSense - Home</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* Reset & General */
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
         body {
             background: url('GreenPowerSense10.jpg') no-repeat center center fixed;
             background-size: cover;
             color: #fff;
         }
-        .container { width: 90%; max-width: 1200px; margin: auto; padding: 20px 0; }
-
-        /* Header */
-        header {
-            text-align: center;
-            padding: 80px 20px 40px 20px;
-            backdrop-filter: blur(5px);
-            background-color: rgba(0,0,0,0.4);
-            border-radius: 15px;
-        }
-        header h1 { font-size: 3rem; margin-bottom: 15px; }
-        header p { font-size: 1.2rem; margin-bottom: 30px; }
-
-        .input-section {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-        }
-        .input-section input[type="number"], .input-section input[type="file"] {
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            outline: none;
-            width: 200px;
-        }
-        .input-section button {
-            padding: 12px 20px;
-            border-radius: 8px;
-            border: none;
-            background: #2ecc71;
-            color: #fff;
-            cursor: pointer;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-        .input-section button:hover { background: #27ae60; }
+        .container { width: 90%; max-width: 1200px; margin:auto; padding:20px 0; }
 
         /* Sections */
-        section {
-            margin: 60px 0;
-            backdrop-filter: blur(5px);
-            background-color: rgba(0,0,0,0.5);
-            padding: 40px;
-            border-radius: 15px;
-        }
-        section h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-size: 2rem;
-            color: #f1c40f;
-        }
+        section { min-height: 100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.5); border-radius: 15px; padding:40px; margin: 40px 0; }
 
-        /* Chart */
-        #usageChart { max-width: 600px; margin: auto; }
+        h1, h2 { text-align:center; }
+        h1 { font-size: 3rem; margin-bottom:20px; }
+        h2 { font-size: 2rem; margin-bottom: 30px; color:#f1c40f; }
 
-        /* Recommendation Cards */
-        .cards { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; }
-        .card {
-            background-color: rgba(46, 204, 113, 0.2);
-            border-radius: 15px;
-            width: 250px;
-            padding: 20px;
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        }
-        .card h3 { margin-bottom: 15px; color: #2ecc71; }
-        .card p { font-size: 0.9rem; }
-        .card button {
-            margin-top: 15px;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 8px;
-            background: #f1c40f;
-            color: #000;
-            cursor: pointer;
-            font-weight: 600;
-        }
-        .card button:hover { background: #d4ac0d; }
+        .input-section { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; }
+        .input-section input[type="number"], .input-section input[type="file"] { padding:12px; border-radius:8px; border:none; outline:none; width:200px; }
+        .input-section button { padding:12px 20px; border-radius:8px; border:none; background:#2ecc71; color:#fff; cursor:pointer; font-weight:600; transition:0.3s; }
+        .input-section button:hover { background:#27ae60; }
+
+        /* Appliances */
+        .appliances { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
+        .appliance { width:150px; height:150px; border-radius:15px; background-color: rgba(46, 204, 113, 0.2); display:flex; justify-content:center; align-items:center; flex-direction:column; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s; }
+        .appliance.selected { transform: scale(1.1); box-shadow:0 10px 20px rgba(0,0,0,0.5); }
+        .appliance img { width:80px; height:80px; margin-bottom:10px; }
+        .appliance span { font-weight:500; }
 
         /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0,0,0,0.6);
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
+        footer { text-align:center; padding:20px; background: rgba(0,0,0,0.6); border-radius:10px; margin-bottom:30px; }
 
-        @media (max-width: 768px){
-            header h1 { font-size: 2rem; }
-            .input-section { flex-direction: column; }
-            .cards { flex-direction: column; align-items: center; }
-        }
+        @media(max-width:768px){ .input-section { flex-direction:column; } .appliances { flex-direction:column; align-items:center; } }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header / Hero -->
-        <header>
+        <!-- Section 1: Bill Input -->
+        <section>
             <h1>GreenPowerSense</h1>
-            <p>Analyze your electricity usage and get personalized green energy recommendations</p>
+            <p style="text-align:center; margin-bottom:30px;">Enter your electricity usage to get personalized green energy recommendations.</p>
             <div class="input-section">
                 <input type="file" id="billUpload" accept=".jpg,.png,.pdf">
                 <input type="number" id="units" placeholder="Enter units consumed">
                 <input type="number" id="cost" placeholder="Enter monthly cost (₹)">
-                <button onclick="analyzeBill()">Analyze My Bill</button>
+                <button onclick="goToDashboard()">Proceed to Dashboard</button>
             </div>
-        </header>
-
-        <!-- Electricity Analysis -->
-        <section id="analysis">
-            <h2>Electricity Usage Analysis</h2>
-            <canvas id="usageChart"></canvas>
-            <p id="analysisText" style="text-align:center; margin-top:15px;"></p>
         </section>
 
-        <!-- Solar Quote -->
-        <section id="solarQuote">
-            <h2>Solar Quote & Cost Estimate</h2>
-            <p id="solarText" style="text-align:center; font-size:1.1rem;"></p>
-        </section>
-
-        <!-- Green Energy Recommendations -->
-        <section id="recommendations">
-            <h2>Green Energy Recommendations</h2>
-            <div class="cards">
-                <div class="card">
-                    <h3>Solar Panels</h3>
-                    <p>Roof-top solar panels to save electricity costs and reduce carbon footprint.</p>
-                    <button>Learn More</button>
+        <!-- Section 2: Appliance Selection -->
+        <section>
+            <h2>Select Appliances in Your Home</h2>
+            <div class="appliances">
+                <!-- Example appliances -->
+                <div class="appliance" data-units="150">
+                    <img src="ac.png" alt="AC">
+                    <span>AC</span>
                 </div>
-                <div class="card">
-                    <h3>Wind Turbines</h3>
-                    <p>Small/medium turbines for homes or farms, generating renewable energy efficiently.</p>
-                    <button>Learn More</button>
+                <div class="appliance" data-units="100">
+                    <img src="fridge.png" alt="Fridge">
+                    <span>Fridge</span>
                 </div>
-                <div class="card">
-                    <h3>Hydro Energy</h3>
-                    <p>Use nearby water streams to generate sustainable electricity for your home.</p>
-                    <button>Learn More</button>
+                <div class="appliance" data-units="50">
+                    <img src="tv.png" alt="TV">
+                    <span>TV</span>
                 </div>
-                <div class="card">
-                    <h3>Biogas / Biomass</h3>
-                    <p>Convert organic waste into energy; eco-friendly alternative for households.</p>
-                    <button>Learn More</button>
+                <div class="appliance" data-units="30">
+                    <img src="fan.png" alt="Fan">
+                    <span>Fan</span>
+                </div>
+                <div class="appliance" data-units="20">
+                    <img src="light.png" alt="Light">
+                    <span>Light</span>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
         <footer>
             &copy; 2026 GreenPowerSense | Intelligent Energy Solutions
         </footer>
     </div>
 
-    <!-- JS for Analysis & Solar Quote -->
     <script>
-        function analyzeBill() {
-            // Get inputs
-            let units = document.getElementById('units').value;
-            let cost = document.getElementById('cost').value;
-
-            if(!units || !cost){
-                alert("Please enter units and cost for analysis!");
-                return;
-            }
-
-            units = parseFloat(units);
-            cost = parseFloat(cost);
-
-            // Display simple analysis
-            let avgCostPerUnit = (cost/units).toFixed(2);
-            document.getElementById('analysisText').innerText = `Your average cost per unit is ₹${avgCostPerUnit}/unit.`;
-
-            // Create usage chart (dummy example)
-            const ctx = document.getElementById('usageChart').getContext('2d');
-            if(window.myChart) window.myChart.destroy(); // destroy previous chart if exists
-            window.myChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: ['Week 1','Week 2','Week 3','Week 4'],
-                    datasets: [{
-                        label: 'Units Consumed',
-                        data: [
-                            (units*0.25).toFixed(1),
-                            (units*0.25).toFixed(1),
-                            (units*0.25).toFixed(1),
-                            (units*0.25).toFixed(1)
-                        ],
-                        backgroundColor: '#2ecc71'
-                    }]
-                },
-                options: {
-                    responsive:true,
-                    plugins: { legend: { display:false } },
-                    scales: { y: { beginAtZero:true } }
+        // Appliance selection
+        const appliances = document.querySelectorAll('.appliance');
+        let selectedAppliances = [];
+        appliances.forEach(ap => {
+            ap.addEventListener('click', () => {
+                ap.classList.toggle('selected');
+                const name = ap.querySelector('span').innerText;
+                const units = parseInt(ap.dataset.units);
+                if(selectedAppliances.some(a => a.name === name)){
+                    selectedAppliances = selectedAppliances.filter(a => a.name !== name);
+                } else {
+                    selectedAppliances.push({name, units});
                 }
             });
+        });
 
-            // Solar quote calculation
-            let solarKwNeeded = (units / 30 / 4).toFixed(1); // approx kW needed
-            let solarCost = (solarKwNeeded * 50000).toLocaleString(); // ₹50k per kW approx
-            let savings = (units*12*avgCostPerUnit*0.7).toLocaleString(); // approx yearly saving
-            document.getElementById('solarText').innerText = `Estimated Solar Panels Needed: ${solarKwNeeded} kW | Installation Cost: ₹${solarCost} | Yearly Savings: ₹${savings}`;
+        // Go to dashboard
+        function goToDashboard(){
+            const units = document.getElementById('units').value;
+            const cost = document.getElementById('cost').value;
+            if(!units || !cost){
+                alert("Please enter units and cost before proceeding!");
+                return;
+            }
+            // Store data in localStorage
+            localStorage.setItem('billUnits', units);
+            localStorage.setItem('billCost', cost);
+            localStorage.setItem('selectedAppliances', JSON.stringify(selectedAppliances));
+
+            // Redirect to dashboard
+            window.location.href = 'dashboard.html';
         }
     </script>
 </body>
