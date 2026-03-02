@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GreenPowerSense</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -15,7 +16,7 @@
     font-family:'Poppins',sans-serif;
 }
 
-/* ===== FULL HERO BACKGROUND ===== */
+/* ===== BACKGROUND ===== */
 body{
     background:
         linear-gradient(rgba(0,0,0,0.45),rgba(0,0,0,0.45)),
@@ -68,7 +69,7 @@ nav{
     cursor:pointer;
 }
 
-/* ===== HERO SECTION ===== */
+/* ===== HERO ===== */
 .hero{
     height:100vh;
     display:flex;
@@ -79,7 +80,6 @@ nav{
     padding-top:80px;
 }
 
-/* NEW CENTER TITLE */
 .hero h2{
     font-size:1.5rem;
     font-weight:600;
@@ -99,7 +99,6 @@ nav{
     opacity:0.9;
 }
 
-/* Buttons */
 .hero-buttons{
     display:flex;
     gap:20px;
@@ -109,7 +108,6 @@ nav{
 .btn{
     padding:15px 40px;
     border-radius:30px;
-    border:none;
     font-weight:600;
     cursor:pointer;
     transition:0.3s;
@@ -137,7 +135,7 @@ nav{
     color:black;
 }
 
-/* ===== EMAIL SIGNUP ===== */
+/* Signup */
 .signup{
     background:rgba(255,255,255,0.1);
     backdrop-filter:blur(15px);
@@ -164,14 +162,12 @@ nav{
     color:white;
     font-weight:600;
     cursor:pointer;
-    transition:0.3s;
 }
 
 .signup button:hover{
     background:#005bea;
 }
 
-/* Responsive */
 @media(max-width:900px){
     .nav-links{display:none;}
     .hero h1{font-size:2.5rem;}
@@ -183,16 +179,15 @@ nav{
 
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <nav>
     <div class="logo">GreenPowerSense</div>
 
     <div class="nav-links">
-        <a href="#">Home</a>
-        <a href="#">Energy</a>
-        <a href="#">Green</a>
-        <a href="#">Dashboard</a>
-        <a href="#">Shop</a>
+        <a href="index.html">Home</a>
+        <a href="energy.html">Energy</a>
+        <a href="green.html">Green</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="shop.html">Shop</a>
     </div>
 
     <div class="nav-right">
@@ -201,20 +196,15 @@ nav{
     </div>
 </nav>
 
-<!-- ===== HERO SECTION ===== -->
 <section class="hero">
 
-    <!-- Added Title in Center -->
     <h2>GreenPowerSense</h2>
-
     <h1>Power Your Home Smartly</h1>
-
-    <!-- Solar changed to Green -->
     <p>Monitor electricity usage, reduce costs, and switch to clean green energy.</p>
 
     <div class="hero-buttons">
         <a href="login.html" class="btn btn-primary">Get Started</a>
-        <a href="#" class="btn btn-outline">Speak to Advisor</a>
+        <a href="advisor.html" class="btn btn-outline">Speak to Advisor</a>
     </div>
 
     <div class="signup">
