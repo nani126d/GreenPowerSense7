@@ -23,7 +23,6 @@ body{
     align-items:center;
     text-align:center;
     color:white;
-    position:relative;
 }
 
 /* Dark overlay */
@@ -34,7 +33,8 @@ body::before{
     left:0;
     width:100%;
     height:100%;
-    background:rgba(0,0,0,0.65);
+    background:rgba(0,0,0,0.6);
+    z-index:0;
 }
 
 .container{
@@ -45,38 +45,38 @@ body::before{
 }
 
 h1{
-    font-size:50px;
+    font-size:48px;
     font-weight:700;
     letter-spacing:2px;
     margin-bottom:20px;
+    color:#ffffff;
 }
 
 .highlight{
-    color:#3b82f6; /* Professional blue */
+    color:#3b82f6;   /* Professional Blue */
 }
 
 p{
     font-size:18px;
-    margin-bottom:40px;
+    margin-bottom:30px;
     color:#e2e8f0;
 }
 
-/* Buttons container */
-.buttons{
+/* Buttons */
+.hero-buttons{
     margin-top:20px;
 }
 
 .btn{
     display:inline-block;
-    padding:14px 35px;
-    border-radius:40px;
+    padding:12px 30px;
+    margin:10px;
+    border-radius:30px;
     text-decoration:none;
     font-weight:600;
-    font-size:18px;
     background:#3b82f6;
     color:white;
-    transition:0.3s ease;
-    margin:10px;
+    transition:0.3s;
 }
 
 .btn:hover{
@@ -84,13 +84,12 @@ p{
     transform:scale(1.08);
 }
 
-/* Get Started special style */
-.get-started{
-    background:#1e40af;
+.btn.secondary{
+    background:#0f172a;
 }
 
-.get-started:hover{
-    background:#1e3a8a;
+.btn.secondary:hover{
+    background:#1e293b;
 }
 </style>
 </head>
@@ -101,18 +100,12 @@ p{
     <h1><span class="highlight">Green</span>PowerSense</h1>
 
     <p>
-        Smart Energy Analysis & Solar Guidance for Modern Homes.
+        Intelligent Electricity Analysis & Smart Solar Guidance for Modern Homes.
     </p>
 
-    <div class="buttons">
-
-        <!-- NEW GET STARTED BUTTON -->
-        <a href="login.html" class="btn get-started">Get Started</a>
-
-        <!-- Your existing buttons -->
-        <a href="login.html" class="btn">Sign In</a>
-        <a href="signup.html" class="btn">Sign Up</a>
-
+    <div class="hero-buttons">
+        <a href="login.html" class="btn">Get Started</a>
+        <a href="admin.html" class="btn secondary">Admin Panel</a>
     </div>
 </div>
 
