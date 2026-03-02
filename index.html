@@ -184,9 +184,9 @@ nav{
     <h1>Power Your Home Smartly</h1>
     <p>Monitor electricity usage, reduce costs, and switch to clean green energy.</p>
 
-    <div id="authButtons" class="hero-buttons">
+    <div class="hero-buttons">
         <a id="getStartedBtn" href="login.html" class="btn btn-primary">Get Started</a>
-        <a href="signup.html" class="btn btn-outline">Sign Up</a>
+        <a id="signupBtn" href="signup.html" class="btn btn-outline">Sign Up</a>
     </div>
 
 </section>
@@ -197,16 +197,20 @@ window.onload = function(){
     let username = localStorage.getItem("gps_username");
 
     if(loggedIn === "true" && username){
-        document.getElementById("authButtons").style.display = "none";
 
+        // Change Get Started to home page
+        document.getElementById("getStartedBtn").href = "home.html";
+
+        // Hide Sign Up button
+        document.getElementById("signupBtn").style.display = "none";
+
+        // Show username
         let profile = document.getElementById("userProfile");
         profile.style.display = "block";
         profile.innerHTML = "Hi, " + username;
 
+        // Show logout button
         document.getElementById("logoutBtn").style.display = "inline-block";
-
-        // Change Get Started destination when logged in
-        document.getElementById("getStartedBtn").href = "dashboard.html";
     }
 }
 
