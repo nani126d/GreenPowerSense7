@@ -1,188 +1,224 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GreenPowerSense - Home</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenPowerSense - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+        body {
+            background: url('GreenPowerSense10.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+        }
+        .container { width: 90%; max-width: 1200px; margin:auto; padding:20px 0; }
 
-<style>
-* { margin:0; padding:0; box-sizing:border-box; font-family:'Poppins', sans-serif; }
+        section {
+            min-height: 100vh;
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+            backdrop-filter: blur(5px);
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 15px;
+            padding:40px;
+            margin: 40px 0;
+        }
 
-body {
-    background: url('GreenPowerSense10.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: white;
-}
+        h1, h2 { text-align:center; }
+        h1 { font-size: 3rem; margin-bottom:20px; }
+        h2 { font-size: 2rem; margin-bottom: 30px; color:#f1c40f; }
 
-.container { width:90%; max-width:1200px; margin:auto; padding:20px 0; }
+        .input-section {
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:center;
+            gap:15px;
+        }
 
-section {
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    backdrop-filter: blur(5px);
-    background:rgba(0,0,0,0.6);
-    border-radius:20px;
-    padding:40px;
-    margin:40px 0;
-}
+        .input-section input {
+            padding:12px;
+            border-radius:8px;
+            border:none;
+            width:200px;
+        }
 
-h1 { font-size:3rem; margin-bottom:20px; }
-h2 { font-size:2rem; margin-bottom:30px; color:#f1c40f; }
+        /* Appliances */
+        .appliances {
+            display:flex;
+            flex-wrap:wrap;
+            justify-content:center;
+            gap:25px;
+        }
 
-.input-section {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:15px;
-}
+        .appliance {
+            width:120px;
+            height:120px;
+            border-radius:15px;
+            background-color: rgba(46, 204, 113, 0.2);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            cursor:pointer;
+            transition:0.3s;
+            position:relative;
+        }
 
-input {
-    padding:12px;
-    border-radius:8px;
-    border:none;
-    width:200px;
-}
+        .appliance:hover {
+            background-color: rgba(46, 204, 113, 0.4);
+        }
 
-.appliances {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:30px;
-}
+        .appliance img {
+            width:60px;   /* Slightly bigger */
+            height:60px;
+            margin-bottom:8px;
+        }
 
-.appliance {
-    width:130px;
-    height:130px;
-    border-radius:20px;
-    background:rgba(46,204,113,0.2);
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    position:relative;
-    transition:0.3s;
-}
+        .appliance span { font-weight:500; font-size:14px; }
 
-.appliance:hover {
-    background:rgba(46,204,113,0.4);
-}
+        .quantity {
+            position:absolute;
+            top:6px;
+            right:8px;
+            background:red;
+            color:white;
+            border-radius:50%;
+            width:22px;
+            height:22px;
+            font-size:12px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            display:none;
+        }
 
-.appliance img {
-    width:65px;   /* Bigger icon */
-    height:65px;
-}
+        /* Professional Bottom Button */
+        .bottom-btn-container {
+            text-align:center;
+            margin:40px 0;
+        }
 
-.appliance span {
-    margin-top:8px;
-    font-size:14px;
-}
+        .proceed-btn {
+            padding:14px 40px;
+            font-size:18px;
+            border:none;
+            border-radius:30px;
+            background:linear-gradient(45deg,#2ecc71,#27ae60);
+            color:white;
+            cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 5px 15px rgba(0,0,0,0.4);
+        }
 
-.quantity {
-    position:absolute;
-    top:8px;
-    right:10px;
-    background:red;
-    color:white;
-    width:25px;
-    height:25px;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:13px;
-    display:none;
-}
+        .proceed-btn:hover {
+            transform:translateY(-3px);
+        }
 
-/* Professional Button */
-.proceed-btn {
-    margin-top:60px;
-    padding:15px 40px;
-    font-size:18px;
-    border:none;
-    border-radius:30px;
-    background:linear-gradient(45deg,#2ecc71,#27ae60);
-    color:white;
-    cursor:pointer;
-    transition:0.3s;
-    box-shadow:0 5px 15px rgba(0,0,0,0.4);
-}
+        footer {
+            text-align:center;
+            padding:20px;
+            background: rgba(0,0,0,0.6);
+            border-radius:10px;
+            margin-bottom:30px;
+        }
 
-.proceed-btn:hover {
-    transform:translateY(-3px);
-}
-</style>
+        @media(max-width:768px){
+            .input-section { flex-direction:column; }
+            .appliances { flex-direction:column; align-items:center; }
+        }
+    </style>
 </head>
 
 <body>
 <div class="container">
 
-<section>
-<h1>GreenPowerSense</h1>
+    <!-- Section 1 -->
+    <section>
+        <h1>GreenPowerSense</h1>
+        <p style="text-align:center; margin-bottom:30px;">
+            Enter your electricity usage to get personalized green energy recommendations.
+        </p>
+        <div class="input-section">
+            <input type="number" id="units" placeholder="Enter units consumed">
+            <input type="number" id="cost" placeholder="Enter monthly cost (₹)">
+        </div>
+    </section>
 
-<div class="input-section">
-<input type="number" id="units" placeholder="Enter units consumed">
-<input type="number" id="cost" placeholder="Enter monthly cost (₹)">
-</div>
+    <!-- Section 2 -->
+    <section>
+        <h2>Select Appliances in Your Home</h2>
 
-<h2>Select Appliances in Your Home</h2>
+        <div class="appliances">
 
-<div class="appliances">
+            <div class="appliance" data-name="AC" data-units="150">
+                <div class="quantity">0</div>
+                <img src="AC.jpg">
+                <span>AC</span>
+            </div>
 
-<div class="appliance" data-name="AC" data-units="150">
-<div class="quantity">0</div>
-<img src="AC.jpg"><span>AC</span>
-</div>
+            <div class="appliance" data-name="Fridge" data-units="100">
+                <div class="quantity">0</div>
+                <img src="fridge.jpg">
+                <span>Fridge</span>
+            </div>
 
-<div class="appliance" data-name="Fridge" data-units="100">
-<div class="quantity">0</div>
-<img src="fridge.jpg"><span>Fridge</span>
-</div>
+            <div class="appliance" data-name="TV" data-units="50">
+                <div class="quantity">0</div>
+                <img src="TV.jpg">
+                <span>TV</span>
+            </div>
 
-<div class="appliance" data-name="TV" data-units="50">
-<div class="quantity">0</div>
-<img src="TV.jpg"><span>TV</span>
-</div>
+            <div class="appliance" data-name="Fan" data-units="30">
+                <div class="quantity">0</div>
+                <img src="fan.jpg">
+                <span>Fan</span>
+            </div>
 
-<div class="appliance" data-name="Fan" data-units="30">
-<div class="quantity">0</div>
-<img src="fan.jpg"><span>Fan</span>
-</div>
+            <div class="appliance" data-name="Washing Machine" data-units="120">
+                <div class="quantity">0</div>
+                <img src="washingmechine.jpg">
+                <span>Washing</span>
+            </div>
 
-<div class="appliance" data-name="Washing Machine" data-units="120">
-<div class="quantity">0</div>
-<img src="washingmechine.jpg"><span>Washing</span>
-</div>
+            <div class="appliance" data-name="Oven" data-units="140">
+                <div class="quantity">0</div>
+                <img src="oven.jpg">
+                <span>Oven</span>
+            </div>
 
-<div class="appliance" data-name="Oven" data-units="140">
-<div class="quantity">0</div>
-<img src="oven.jpg"><span>Oven</span>
-</div>
+            <div class="appliance" data-name="Dishwasher" data-units="110">
+                <div class="quantity">0</div>
+                <img src="dishwasher.jpg">
+                <span>Dishwasher</span>
+            </div>
 
-<div class="appliance" data-name="Dishwasher" data-units="110">
-<div class="quantity">0</div>
-<img src="dishwasher.jpg"><span>Dishwasher</span>
-</div>
+            <div class="appliance" data-name="Heater" data-units="130">
+                <div class="quantity">0</div>
+                <img src="heater.jpg">
+                <span>Heater</span>
+            </div>
 
-<div class="appliance" data-name="Heater" data-units="130">
-<div class="quantity">0</div>
-<img src="heater.jpg"><span>Heater</span>
-</div>
+            <div class="appliance" data-name="Cooler" data-units="90">
+                <div class="quantity">0</div>
+                <img src="cooler.jpg">
+                <span>Cooler</span>
+            </div>
 
-<div class="appliance" data-name="Cooler" data-units="90">
-<div class="quantity">0</div>
-<img src="cooler.jpg"><span>Cooler</span>
-</div>
+        </div>
+    </section>
 
-</div>
+    <!-- Bottom Button -->
+    <div class="bottom-btn-container">
+        <button class="proceed-btn" onclick="goToDashboard()">Proceed to Dashboard →</button>
+    </div>
 
-<button class="proceed-btn" onclick="goToDashboard()">Proceed to Dashboard →</button>
+    <footer>
+        &copy; 2026 GreenPowerSense | Intelligent Energy Solutions
+    </footer>
 
-</section>
 </div>
 
 <script>
@@ -190,39 +226,38 @@ const appliances = document.querySelectorAll('.appliance');
 let selectedAppliances = [];
 
 appliances.forEach(ap => {
-let count = 0;
-const qty = ap.querySelector('.quantity');
-const name = ap.dataset.name;
-const units = parseInt(ap.dataset.units);
+    let count = 0;
+    const qty = ap.querySelector('.quantity');
+    const name = ap.dataset.name;
+    const unitValue = parseInt(ap.dataset.units);
 
-ap.addEventListener('click', () => {
-count++;
-qty.style.display="flex";
-qty.innerText=count;
+    ap.addEventListener('click', () => {
+        count++;
+        qty.style.display = "flex";
+        qty.innerText = count;
 
-updateSelection(name, units, count);
+        selectedAppliances = selectedAppliances.filter(a => a.name !== name);
+        selectedAppliances.push({
+            name: name,
+            totalUnits: unitValue * count
+        });
+    });
 });
-});
-
-function updateSelection(name, units, count){
-selectedAppliances = selectedAppliances.filter(a => a.name !== name);
-selectedAppliances.push({name, totalUnits: units * count});
-}
 
 function goToDashboard(){
-const units = document.getElementById('units').value;
-const cost = document.getElementById('cost').value;
+    const units = document.getElementById('units').value;
+    const cost = document.getElementById('cost').value;
 
-if(!units || !cost){
-alert("Please enter units and cost!");
-return;
-}
+    if(!units || !cost){
+        alert("Please enter units and cost before proceeding!");
+        return;
+    }
 
-localStorage.setItem("billUnits", units);
-localStorage.setItem("billCost", cost);
-localStorage.setItem("appliances", JSON.stringify(selectedAppliances));
+    localStorage.setItem('billUnits', units);
+    localStorage.setItem('billCost', cost);
+    localStorage.setItem('appliances', JSON.stringify(selectedAppliances));
 
-window.location.href="dashboard.html";
+    window.location.href = 'dashboard.html';
 }
 </script>
 
