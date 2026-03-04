@@ -14,7 +14,6 @@
         }
         .container { width: 90%; max-width: 1200px; margin:auto; padding:20px 0; }
 
-        /* Sections */
         section { min-height: 100vh; display:flex; flex-direction:column; justify-content:center; align-items:center; backdrop-filter: blur(5px); background-color: rgba(0,0,0,0.5); border-radius: 15px; padding:40px; margin: 40px 0; }
 
         h1, h2 { text-align:center; }
@@ -27,24 +26,65 @@
         .input-section button:hover { background:#27ae60; }
 
         /* Appliances */
-        .appliances { display:flex; flex-wrap:wrap; justify-content:center; gap:20px; }
-        .appliance { width:150px; height:150px; border-radius:15px; background-color: rgba(46, 204, 113, 0.2); display:flex; justify-content:center; align-items:center; flex-direction:column; cursor:pointer; transition: transform 0.3s, box-shadow 0.3s; }
-        .appliance.selected { transform: scale(1.1); box-shadow:0 10px 20px rgba(0,0,0,0.5); }
-        .appliance img { width:80px; height:80px; margin-bottom:10px; }
-        .appliance span { font-weight:500; }
+        .appliances { display:flex; flex-wrap:wrap; justify-content:center; gap:30px; }
 
-        /* Footer */
+        .appliance {
+            width:100px;
+            height:100px;
+            border-radius:15px;
+            background-color: rgba(46, 204, 113, 0.2);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+            cursor:pointer;
+            position:relative;
+            transition:0.3s;
+        }
+
+        .appliance img {
+            width:45px;     /* SMALL ICON SIZE */
+            height:45px;
+        }
+
+        .appliance span {
+            font-size:14px;
+            margin-top:5px;
+        }
+
+        .quantity {
+            position:absolute;
+            top:5px;
+            right:8px;
+            background:red;
+            color:white;
+            border-radius:50%;
+            width:22px;
+            height:22px;
+            font-size:12px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            display:none;
+        }
+
         footer { text-align:center; padding:20px; background: rgba(0,0,0,0.6); border-radius:10px; margin-bottom:30px; }
 
-        @media(max-width:768px){ .input-section { flex-direction:column; } .appliances { flex-direction:column; align-items:center; } }
+        @media(max-width:768px){
+            .input-section { flex-direction:column; }
+            .appliances { flex-direction:column; align-items:center; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Section 1: Bill Input -->
+
+        <!-- Section 1 -->
         <section>
             <h1>GreenPowerSense</h1>
-            <p style="text-align:center; margin-bottom:30px;">Enter your electricity usage to get personalized green energy recommendations.</p>
+            <p style="text-align:center; margin-bottom:30px;">
+                Enter your electricity usage to get personalized green energy recommendations.
+            </p>
             <div class="input-section">
                 <input type="file" id="billUpload" accept=".jpg,.png,.pdf">
                 <input type="number" id="units" placeholder="Enter units consumed">
@@ -53,31 +93,65 @@
             </div>
         </section>
 
-        <!-- Section 2: Appliance Selection -->
+        <!-- Section 2 -->
         <section>
             <h2>Select Appliances in Your Home</h2>
             <div class="appliances">
-                <!-- Example appliances -->
-                <div class="appliance" data-units="150">
-                    <img src="ac.png" alt="AC">
+
+                <div class="appliance" data-name="AC" data-units="150">
+                    <div class="quantity">0</div>
+                    <img src="AC.jpg" alt="AC">
                     <span>AC</span>
                 </div>
-                <div class="appliance" data-units="100">
-                    <img src="fridge.png" alt="Fridge">
+
+                <div class="appliance" data-name="Fridge" data-units="100">
+                    <div class="quantity">0</div>
+                    <img src="fridge.jpg" alt="Fridge">
                     <span>Fridge</span>
                 </div>
-                <div class="appliance" data-units="50">
-                    <img src="tv.png" alt="TV">
+
+                <div class="appliance" data-name="TV" data-units="50">
+                    <div class="quantity">0</div>
+                    <img src="TV.jpg" alt="TV">
                     <span>TV</span>
                 </div>
-                <div class="appliance" data-units="30">
-                    <img src="fan.png" alt="Fan">
+
+                <div class="appliance" data-name="Fan" data-units="30">
+                    <div class="quantity">0</div>
+                    <img src="fan.jpg" alt="Fan">
                     <span>Fan</span>
                 </div>
-                <div class="appliance" data-units="20">
-                    <img src="light.png" alt="Light">
-                    <span>Light</span>
+
+                <div class="appliance" data-name="Washing Machine" data-units="120">
+                    <div class="quantity">0</div>
+                    <img src="washingmechine.jpg" alt="Washing Machine">
+                    <span>Washing</span>
                 </div>
+
+                <div class="appliance" data-name="Oven" data-units="140">
+                    <div class="quantity">0</div>
+                    <img src="oven.jpg" alt="Oven">
+                    <span>Oven</span>
+                </div>
+
+                <div class="appliance" data-name="Dishwasher" data-units="110">
+                    <div class="quantity">0</div>
+                    <img src="dishwasher.jpg" alt="Dishwasher">
+                    <span>Dishwasher</span>
+                </div>
+
+                <div class="appliance" data-name="Heater" data-units="130">
+                    <div class="quantity">0</div>
+                    <img src="heater.jpg" alt="Heater">
+                    <span>Heater</span>
+                </div>
+
+                <div class="appliance" data-name="Cooler" data-units="90">
+                    <div class="quantity">0</div>
+                    <img src="cooler.jpg" alt="Cooler">
+                    <span>Cooler</span>
+                </div>
+
             </div>
         </section>
 
@@ -87,36 +161,52 @@
     </div>
 
     <script>
-        // Appliance selection
         const appliances = document.querySelectorAll('.appliance');
         let selectedAppliances = [];
+
         appliances.forEach(ap => {
+            let count = 0;
+            const qty = ap.querySelector('.quantity');
+            const name = ap.dataset.name;
+            const units = parseInt(ap.dataset.units);
+
             ap.addEventListener('click', () => {
-                ap.classList.toggle('selected');
-                const name = ap.querySelector('span').innerText;
-                const units = parseInt(ap.dataset.units);
-                if(selectedAppliances.some(a => a.name === name)){
-                    selectedAppliances = selectedAppliances.filter(a => a.name !== name);
-                } else {
-                    selectedAppliances.push({name, units});
+                count++;
+                qty.style.display = "flex";
+                qty.innerText = count;
+
+                selectedAppliances = selectedAppliances.filter(a => a.name !== name);
+                selectedAppliances.push({name, units: units * count});
+            });
+
+            ap.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                if(count > 0){
+                    count--;
+                    qty.innerText = count;
+                    if(count === 0){
+                        qty.style.display = "none";
+                        selectedAppliances = selectedAppliances.filter(a => a.name !== name);
+                    } else {
+                        selectedAppliances = selectedAppliances.filter(a => a.name !== name);
+                        selectedAppliances.push({name, units: units * count});
+                    }
                 }
             });
         });
 
-        // Go to dashboard
         function goToDashboard(){
             const units = document.getElementById('units').value;
             const cost = document.getElementById('cost').value;
+
             if(!units || !cost){
                 alert("Please enter units and cost before proceeding!");
                 return;
             }
-            // Store data in localStorage
+
             localStorage.setItem('billUnits', units);
             localStorage.setItem('billCost', cost);
             localStorage.setItem('selectedAppliances', JSON.stringify(selectedAppliances));
-
-            // Redirect to dashboard
             window.location.href = 'dashboard.html';
         }
     </script>
